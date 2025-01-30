@@ -4,11 +4,12 @@ import Image from "next/image"
 
 type ImageGalleryProps = {
   images: HttpTypes.StoreProductImage[]
+  className?: string // Add className as an optional prop
 }
 
-const ImageGallery = ({ images }: ImageGalleryProps) => {
+const ImageGallery = ({ images, className }: ImageGalleryProps) => {
   return (
-    <div className="flex items-start relative">
+    <div className={`flex items-start relative ${className || ''}`}>
       <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
         {images.map((image, index) => {
           return (
@@ -26,7 +27,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                   fill
                   sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
                   style={{
-                    objectFit: "cover",
+                    objectFit: "cover", // Ensure image covers the space well
                   }}
                 />
               )}

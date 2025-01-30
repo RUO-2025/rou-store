@@ -52,10 +52,10 @@ const Item: React.FC<AccordionItemProps> = ({
         className
       )}
     >
-      <AccordionPrimitive.Header className="px-1">
+      <AccordionPrimitive.Header className="">
         <div className="flex flex-col">
           <div className="flex w-full items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center">
               <Text className="text-ui-fg-subtle text-sm">{title}</Text>
             </div>
             <AccordionPrimitive.Trigger>

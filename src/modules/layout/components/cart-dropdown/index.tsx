@@ -12,6 +12,7 @@ import LineItemPrice from "@modules/common/components/line-item-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "@modules/products/components/thumbnail"
 import { updateLineItem } from "@lib/data/cart"
+import ProductStripPage from "app/[countryCode]/(main)/product-strip/page"
 
 const SuggestedProduct = ({ title, variant, price, onAdd }) => (
   <div className="flex flex-col">
@@ -191,18 +192,18 @@ const CartDropdown = ({
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                      <SuggestedProduct
+                      {/* <SuggestedProduct
                         title="Product Name"
                         variant="5mg"
                         price="99.99"
                         onAdd={() => {}}
-                      />
-                      <SuggestedProduct
+                      /> */}
+                      {/* <SuggestedProduct
                         title="Product Name"
                         variant="30mg"
                         price="99.99"
                         onAdd={() => {}}
-                      />
+                      /> */}
                     </div>
                   </div>
                 </div>

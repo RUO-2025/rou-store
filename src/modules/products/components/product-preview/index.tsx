@@ -1,51 +1,62 @@
-import { Text } from "@medusajs/ui"
-import { listProducts } from "@lib/data/products"
+// ProductPreview.tsx
 import { getProductPrice } from "@lib/util/get-product-price"
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
+import AddToCartButton from "./AddToCartButton" // Reuse AddToCartButton Component
 
-export default async function ProductPreview({
-  product,
-  isFeatured,
-  region,
-}: {
+type ProductPreviewProps = {
   product: HttpTypes.StoreProduct
   isFeatured?: boolean
   region: HttpTypes.StoreRegion
-}) {
-  // const pricedProduct = await listProducts({
-  //   regionId: region.id,
-  //   queryParams: { id: [product.id!] },
-  // }).then(({ response }) => response.products[0])
+}
 
-  // if (!pricedProduct) {
-  //   return null
-  // }
-
+export default function ProductPreview({
+  product,
+  isFeatured,
+  region,
+}: ProductPreviewProps) {
   const { cheapestPrice } = getProductPrice({
     product,
-  })
+  });
+
+  const defaultVariantId = product.variants?.[0]?.id || "";
+  const countryCode = region?.country_code || "dk";
 
   return (
-    <LocalizedClientLink href={`/products/${product.handle}`} className="group">
-      <div data-testid="product-wrapper">
-        <Thumbnail
-          thumbnail={product.thumbnail}
-          images={product.images}
-          size="full"
-          isFeatured={isFeatured}
-        />
-        <div className="flex txt-compact-medium mt-4 justify-between">
-          <Text className="text-ui-fg-subtle" data-testid="product-title">
-            {product.title}
-          </Text>
-          <div className="flex items-center gap-x-2">
-            {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
+    <div className="group bg-white rounded-2xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
+      <LocalizedClientLink href={`/products/${product.handle}`} passHref>
+        <div
+          data-testid="product-wrapper"
+          className="flex flex-col items-center justify-center w-full"
+        >
+          <div className="w-full h-56 overflow-hidden rounded-tl-lg rounded-tr-lg relative">
+            <Thumbnail
+              thumbnail={product.thumbnail}
+              images={product.images}
+              size="full"
+              isFeatured={isFeatured}
+              className="w-full h-full object-cover transform transition-transform duration-300 ease-in-out group-hover:scale-110"
+            />
+          </div>
+
+          <div className="mt-4 text-center w-full">
+            <div className="flex justify-center items-center w-full text-xl font-bold">
+              <div className="text-ui-fg-subtle font-bold" data-testid="product-title">
+                {product.title}
+              </div>
+            </div>
+            <div className="mt-2 text-center text-xl font-bold text-gray-500">
+              {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
+            </div>
           </div>
         </div>
+      </LocalizedClientLink>
+
+      <div className="mt-4 w-full px-4 pb-4">
+        <AddToCartButton variantId={defaultVariantId} countryCode={countryCode} />
       </div>
-    </LocalizedClientLink>
-  )
+    </div>
+  );
 }

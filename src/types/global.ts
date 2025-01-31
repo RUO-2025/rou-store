@@ -1,3 +1,4 @@
+import {  ProductVariant, Region } from "@medusajs/medusa"
 import { StorePrice } from "@medusajs/types"
 
 export type FeaturedProduct = {
@@ -6,6 +7,10 @@ export type FeaturedProduct = {
   handle: string
   thumbnail?: string
 }
+
+export type ProductVariantInfo = Pick<ProductVariant, "prices">
+
+export type RegionInfo = Pick<Region, "currency_code" | "tax_code" | "tax_rate">
 
 export type VariantPrice = {
   calculated_price_number: number

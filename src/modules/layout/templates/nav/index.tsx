@@ -19,7 +19,7 @@ export default async function Nav() {
       </div>
 
       {/* Sticky Navbar */}
-      <header className="sticky top-0 z-50 h-16 mx-auto border-b bg-white bg-opacity-60 backdrop-blur-lg border-gray-200 flex items-center justify-between px-6">
+      <header className="sticky top-0 z-50 h-16 mx-auto border-b bg-white  border-gray-200 flex items-center justify-between px-6">
         {/* Left Side - Logo and Navigation Links */}
         <div className="flex items-center h-full">
           {/* Side Menu: visible on all screens except extra-large (≥1280px) */}

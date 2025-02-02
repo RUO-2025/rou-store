@@ -25,7 +25,7 @@ export default async function ProductRail({
   if (!pricedProducts) {
     return null
   }
-
+console.log(collection)
   return (
     <div className="content-container py-12 small:py-24">
       <div className="flex justify-between mb-8">

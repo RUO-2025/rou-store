@@ -54,11 +54,10 @@ const CartDropdown = ({
     <>
       <button 
         onClick={() => setIsOpen(!isOpen)} 
-        className="relative flex items-center gap-2 px-4 py-2"
+        className="relative flex items-center py-2"
         aria-label="Cart"
       >
-        <span className="font-medium">Your Cart</span>
-        <span className="text-gray-600">({totalItems} item{totalItems !== 1 ? 's' : ''})</span>
+        <ShoppingCart size={20}/>
       </button>
 
       <div

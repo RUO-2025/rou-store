@@ -2,9 +2,7 @@ import { FlaskConical as Flask, Verified, Truck } from "lucide-react";
 import type { HttpTypes } from "@medusajs/types";
 import Image from "next/image";
 
-interface FeatureSectionProps {
-  product: HttpTypes.StoreProduct;
-}
+
 
 const GradientClipPath: React.FC<{ position: "top-left" | "bottom-right" }> = ({ position }) => {
   return (
@@ -20,7 +18,7 @@ const GradientClipPath: React.FC<{ position: "top-left" | "bottom-right" }> = ({
   );
 };
 
-export default function FeatureSection({ product }: FeatureSectionProps) {
+export default function FeatureSection() {
   return (
     <div className="w-full min-h-screen relative flex items-center justify-center">
       {/* Clip Paths (Behind Everything) */}
@@ -35,12 +33,10 @@ export default function FeatureSection({ product }: FeatureSectionProps) {
         {/* Heading Section */}
         <div className="text-center space-y-4 mb-12">
           <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">
-            Why Power Peptides is the best place to buy {product.title}
+          Your Reliable Source for High-Quality Research Peptides 
           </h2>
           <p className="max-w-4xl mx-auto text-gray-600 text-xl">
-            Power Peptides™ is more than just a trusted U.S. supplier of research peptides. We are a catalyst for
-            scientific advancement, dedicated to providing the highest quality peptides that empower our clients to push
-            the boundaries.
+          Power Peptides™ is more than just a trusted U.S. supplier of research peptides. We are a catalyst for scientific advancement, dedicated to providing the highest quality peptides that empower our clients to push the boundaries.
           </p>
         </div>
 

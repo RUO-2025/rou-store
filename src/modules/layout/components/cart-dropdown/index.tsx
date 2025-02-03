@@ -66,7 +66,7 @@ const CartDropdown = ({
   </div>
 
   {/* Cart Label (Hidden on smaller screens) */}
-  <span className="hidden sm:block"></span>
+  {/* <span className="hidden sm:block">Cart</span> */}
 </button>
 
 
@@ -109,7 +109,7 @@ const CartDropdown = ({
             <>
               <div className="relative -left-4 my-10 flex items-center justify-between gap-2 px-[32px] text-xs text-[#000] lg:px-[40px]">
   {/* Free Shipping (Always shown if total > €40) */}
-  {currentAmount > 40 && (
+  {currentAmount > 1 && (
     <>
       <div className="h-2 w-full overflow-hidden rounded-lg bg-[#C4C4C4]">
         <div
@@ -139,7 +139,7 @@ const CartDropdown = ({
   )}
 
   {/* First Free Bac Water (Always shown if total > €40) */}
-  {currentAmount > 40 && (
+  {/* {currentAmount > 1 && (
     <>
       <div className="h-2 w-full overflow-hidden rounded-lg bg-[#C4C4C4]">
         <div
@@ -170,7 +170,43 @@ const CartDropdown = ({
         </span>
       </div>
     </>
-  )}
+  )} */}
+{currentAmount > 1 && (
+  <>
+    <div className="h-2 w-full overflow-hidden rounded-lg bg-[#C4C4C4]">
+      <div
+        className={`h-full ${
+          currentAmount >= 200 ? "bg-[#008080]" : "bg-transparent"
+        }`}
+        style={{ 
+          width: `${
+            currentAmount < 400 
+              ? Math.min((currentAmount / 400) * 100, 100)
+              : 100
+          }%`
+        }}
+      />
+    </div>
+    <div className="relative">
+      <span className="absolute -left-2 -top-[20px] font-normal">
+        €{currentAmount < 400 ? 400 : Math.floor(currentAmount / 400) * 400}
+      </span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 512 512"
+        stroke="#000"
+      >
+        <path d="M316.9 157.8H195.1c-48 0-87.1 39.1-87.1 87.1v235.7c0 11.3 9.1 20.4 20.4 20.4h255.2c11.3 0 20.4-9.1 20.4-20.4V244.9c0-48-39-87.1-87.1-87.1zm-121.8 40.8H317c25.5 0 46.3 20.8 46.3 46.3v41.5H148.8v-41.5c0-25.5 20.8-46.3 46.3-46.3zm-46.3 261.6v-133h214.4v132.9H148.8zM182.6 132.1h149.2c11.3 0 20.4-9.1 20.4-20.4V31.4c0-11.3-9.1-20.4-20.4-20.4H182.6c-11.3 0-20.4 9.1-20.4 20.4v80.3c0 11.3 9.1 20.4 20.4 20.4zM203 51.8h108.4v39.5H203V51.8z" />
+      </svg>
+      <span className="absolute -bottom-[36px] -left-[28px] whitespace-nowrap text-center font-normal">
+        FREE<br />
+        Bac Water x{currentAmount < 400 ? 1 : Math.floor(currentAmount / 400)}
+      </span>
+    </div>
+  </>
+)}
 
   {/* Additional Free Bac Water (Shown when total >= €400) */}
   {currentAmount >= 400 && (

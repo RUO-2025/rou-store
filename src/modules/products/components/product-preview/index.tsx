@@ -53,7 +53,7 @@ export default function ProductPreview({
           </div>
         </div>
       </LocalizedClientLink>
-
+   
       <div className="mt-4 w-full px-4 pb-4">
         <AddToCartButton variantId={defaultVariantId} countryCode={countryCode} />
       </div>

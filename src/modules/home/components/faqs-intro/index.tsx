@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
+import LocalizedClientLink from "@modules/common/components/localized-client-link";
 
 const faqs = [
   {
@@ -39,9 +40,11 @@ const FAQIntroduction = () => {
               Please visit our FAQ page before reaching out to our customer support. Our team regularly updates this resource to provide you with the most up-to-date and comprehensive information, saving you valuable time.
             </p>
           </div>
-          
+
           <button className="w-full py-2 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors duration-200 text-center">
+          <LocalizedClientLink href="/faq">
             Explore Our FAQs
+          </LocalizedClientLink>
           </button>
         </div>
 

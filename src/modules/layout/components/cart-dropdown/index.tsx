@@ -66,7 +66,7 @@ const CartDropdown = ({
   </div>
 
   {/* Cart Label (Hidden on smaller screens) */}
-  <span className="hidden sm:block">Cart</span>
+  <span className="hidden sm:block"></span>
 </button>
 
 

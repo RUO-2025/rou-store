@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail } from 'lucide-react';
+import Image from 'next/image';
 
 const Footer = () => {
   const peptideLinks = [
@@ -13,7 +14,7 @@ const Footer = () => {
 
   const supportLinks = [
     { name: 'Contact Us', href: '/contact' },
-    { name: 'FAQ', href: '/FAQ' },
+    { name: 'FAQ', href: '/faq' },
     { name: 'Your Account', href: '/account' }
   ];
 
@@ -58,7 +59,7 @@ const Footer = () => {
         {/* Navigation Columns */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-16">
           <div>
-            <img src="power_peptide_logo_small.png" alt="Logo" className="mb-6" />
+            <Image src="/power_peptide_logo_small.png" alt="Logo" height={110} width={110} className="mb-6" />
             <h3 className="font-semibold mb-4">Contact Us</h3>
             <p className="mb-4">+1 (813)-803-1233</p>
             <div >
@@ -121,7 +122,7 @@ const Footer = () => {
           
           <div className="flex justify-end items-start">
             <div className="w-24 h-24">
-              <img src="lab_certified.png" alt="Lab Tested" className="rounded-full" />
+              <Image src="/lab_certified.png" alt="Lab Tested" height={100} width={100} className="rounded-full" />
             </div>
           </div>
         </div>

@@ -22,7 +22,7 @@ const GradientClipPath: React.FC<{ position: "top-left" | "bottom-right" }> = ({
 
 export default function FeatureSection({ product }: FeatureSectionProps) {
   return (
-    <div className="w-full min-h-screen relative flex items-center justify-center">
+    <div className="w-full min-h-screen relative flex items-center justify-center overflow-hidden">
       {/* Clip Paths (Behind Everything) */}
       <GradientClipPath position="top-left" />
       <GradientClipPath position="bottom-right" />

@@ -57,12 +57,25 @@ export default async function Nav() {
               <span className="ml-2">Log in</span>
             </span>
           </LocalizedClientLink>
-          <Suspense>
+          {/* <Suspense>
             <span className="flex items-center gap-x-2">
             <CartButton />
             <span className="hidden sm:inline">Cart</span>
             </span>
-          </Suspense>
+          </Suspense> */}
+          <Suspense
+              fallback={
+                <LocalizedClientLink
+                  className="hover:text-ui-fg-base flex gap-2"
+                  href="/cart"
+                  data-testid="nav-cart-link"
+                >
+                  Cart (0)
+                </LocalizedClientLink>
+              }
+            >
+              <CartButton />
+            </Suspense>
         </div>
       </header>
     </>

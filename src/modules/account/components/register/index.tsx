@@ -21,14 +21,13 @@ const Register = ({ setCurrentView }: Props) => {
       data-testid="register-page"
     >
       <h1 className="text-large-semi uppercase mb-6">
-        Become a Medusa Store Member
+        Become a Power Peptides Member
       </h1>
       <p className="text-center text-base-regular text-ui-fg-base mb-4">
-        Create your Medusa Store Member profile, and get access to an enhanced
-        shopping experience.
+      Create your Power Peptides Member profile and get access to members-only promotions and an enhanced shopping experience.
       </p>
       <form className="w-full flex flex-col" action={formAction}>
-        <div className="flex flex-col w-full gap-y-2">
+        <div className="flex flex-col w-full  gap-y-2">
           <Input
             label="First name"
             name="first_name"
@@ -85,7 +84,7 @@ const Register = ({ setCurrentView }: Props) => {
           </LocalizedClientLink>
           .
         </span>
-        <SubmitButton className="w-full mt-6" data-testid="register-button">
+        <SubmitButton className="w-full mt-6 bg-[#008080] rounded-lg " data-testid="register-button">
           Join
         </SubmitButton>
       </form>

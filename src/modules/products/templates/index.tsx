@@ -13,6 +13,7 @@ import ProductActionsWrapper from "./product-actions-wrapper"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import FeatureSection from "../templates/features"
 import { BeakerIcon, TruckIcon, ShieldCheckIcon } from "lucide-react"
+import ProductDetails from "@modules/products/components/product-detail"
 
 type ProductTemplateProps = {
   product: HttpTypes.StoreProduct
@@ -24,7 +25,8 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
   if (!product || !product.id) {
     return notFound()
   }
-
+  console.log("ssdsd");
+  console.log(JSON.stringify(product.metadata));
   return (
     <>
       <div className="mt-4 ml-12">
@@ -107,7 +109,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
           </div>
         </div>
       </div>
-
+      <div>
+  <ProductDetails product={product} />
+</div>
       <FeatureSection product={product} />
 
       <div className="content-container my-16 small:my-32" data-testid="related-products-container">

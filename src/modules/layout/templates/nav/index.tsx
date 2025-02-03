@@ -19,7 +19,7 @@ export default async function Nav() {
       </div>
 
       {/* Sticky Navbar */}
-      <header className="sticky top-0 z-50 h-16 mx-auto border-b bg-white bg-opacity-60 backdrop-blur-lg border-gray-200 flex items-center justify-between px-6">
+      <header className="sticky top-0 z-50 h-16 mx-auto border-b bg-white  border-gray-200 flex items-center justify-between px-6">
         {/* Left Side - Logo and Navigation Links */}
         <div className="flex items-center h-full">
           {/* Side Menu: visible on all screens except extra-large (≥1280px) */}
@@ -57,12 +57,25 @@ export default async function Nav() {
               <span className="ml-2">Log in</span>
             </span>
           </LocalizedClientLink>
-          <Suspense>
+          {/* <Suspense>
             <span className="flex items-center gap-x-2">
             <CartButton />
             <span className="hidden sm:inline">Cart</span>
             </span>
-          </Suspense>
+          </Suspense> */}
+          <Suspense
+              fallback={
+                <LocalizedClientLink
+                  className="hover:text-ui-fg-base flex gap-2"
+                  href="/cart"
+                  data-testid="nav-cart-link"
+                >
+                  Cart (0)
+                </LocalizedClientLink>
+              }
+            >
+              <CartButton />
+            </Suspense>
         </div>
       </header>
     </>

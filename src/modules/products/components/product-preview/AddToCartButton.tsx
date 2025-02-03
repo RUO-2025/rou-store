@@ -36,8 +36,7 @@ export default function AddToCartButton({ variantId, countryCode }: AddToCartBut
   return (
     <Button
       onClick={handleAddToCart}
-      variant="primary"
-      className="w-full h-10"
+      className="w-full h-10 bg-[#008080] hover:bg-[#3c9696] "
       isLoading={isAdding}
       disabled={isAdding}
     >

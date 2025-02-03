@@ -12,19 +12,19 @@ const Footer = () => {
   ];
 
   const supportLinks = [
-    { name: 'Contact Us', href: '#' },
-    { name: 'FAQ', href: '#' },
-    { name: 'Your Account', href: '#' }
+    { name: 'Contact Us', href: '/contact' },
+    { name: 'FAQ', href: '/FAQ' },
+    { name: 'Your Account', href: '/account' }
   ];
 
   const companyLinks = [
-    { name: 'About Us', href: '#' }
+    { name: 'About Us', href: '/why-us' }
   ];
 
   const policyLinks = [
-    { name: 'Shipping & Returns', href: '#' },
-    { name: 'Terms & Conditions', href: '#' },
-    { name: 'Privacy Policy', href: '#' }
+    { name: 'Shipping & Returns', href: '/shipping-and-returns' },
+    { name: 'Terms & Conditions', href: '/terms-and-conditions' },
+    { name: 'Privacy Policy', href: '/privacy-policy' }
   ];
 
   return (

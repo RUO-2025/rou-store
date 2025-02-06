@@ -7,6 +7,7 @@ import ProductOnboardingCta from "@modules/products/components/product-onboardin
 import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
+import { Verified, Zap } from "lucide-react"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
@@ -14,6 +15,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import FeatureSection from "../templates/features"
 import { BeakerIcon, TruckIcon, ShieldCheckIcon } from "lucide-react"
 import ProductDetails from "@modules/products/components/product-detail"
+import Image from "next/image"
 
 type ProductTemplateProps = {
   product: HttpTypes.StoreProduct
@@ -25,8 +27,12 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
   if (!product || !product.id) {
     return notFound()
   }
-  console.log("ssdsd");
-  console.log(JSON.stringify(product.metadata));
+  console.log("hii")
+  console.log("hii")
+  console.log(product.tags)
+  console.log("hii")
+  console.log("hii")
+
   return (
     <>
       <div className="mt-4 ml-12">
@@ -53,9 +59,11 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
               />
 
               {/* Molecular Info */}
-              <div className="mt-6 pl-8 pr-8 pt-2 pb-2 bg-gray-100 rounded-xl">
-                <span>ⓘ</span>
-                <p className="text-sm text-gray-600 font-mono">Product Usage: This product is intended solely for use as a garment for personal wear. It is not intended for any other purpose, including but not limited to industrial or hazardous environments. Misuse or alteration of the product outside of its intended purpose is strictly prohibited. All information provided is for general guidance on wear and care.</p>
+              <div className="my-6 flex flex-col rounded-3xl bg-[#0033660A] px-6 py-5">
+                <div className="gap-x-3 gap-y-3">
+                <span className="relative top-[5px] mr-2 inline-block h-6 w-6 min-w-[1.5rem] max-w-[1.5rem]">ⓘ</span>
+                <p className="text-sm text-gray-600 mt-2">Product Usage: This product is intended solely for use as a garment for personal wear. It is not intended for any other purpose, including but not limited to industrial or hazardous environments. Misuse or alteration of the product outside of its intended purpose is strictly prohibited. All information provided is for general guidance on wear and care.</p>
+              </div>
               </div>
             </div>
           </div>
@@ -69,38 +77,37 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
 
             {/* Shipping Info */}
             <div className="flex flex-col gap-4 py-4 border-t mt-6">
-              <div className="flex items-center">
-                <span className="text-xl font-semibold">⚡︎</span>
-                <span className="text-ui-fg-base text-xl ml-2">
-                  <span className="font-bold">Ships </span>
-                  <span className="font-bold">Today</span>
+              <div className="flex items-center gap-x-3">
+                <Zap/>
+                <span className="text-ui-fg-base text-base ml-2">
+                  <span className="font-normal">Ships </span>
+                  <span className="font-semibold">Today</span>
                   <span className="font-normal"> if ordered within </span>
-                  <span className="font-bold">6 hrs 48 min</span>
+                  <span className="font-semibold">6 hrs 48 min</span>
                 </span>
               </div>
-              <div className="flex">
-                <span className="text-blue-600 text-xl font-semibold">🚚</span>
-                <span className="text-ui-fg-base text-xl ml-2">
-                  Free Next-Day Delivery within the US on orders over €200
+              <div className="flex items-center gap-x-3">
+                <Image src="/delivery.png" alt="logo" height={8} width={25}></Image>
+                <span className="text-ui-fg-base text-base ml-2">
+                Free FedEx next-day delivery within the US on orders over €200, with a tracking number provided.
                 </span>
               </div>
-              <div className="flex">
-                <span className="text-blue-600 text-xl font-semibold">✅</span>
-                <span className="text-green-800 text-xl ml-2">Third Party Tested</span>
+              <div className="flex text-[#008080] items-center gap-x-3">
+                <Verified/><span className="text-base ml-2">Third Party Tested</span>
               </div>
             </div>
 
             {/* Free Gift Promotion */}
-            <div className="bg-blue-50 p-4 rounded-lg mt-4">
+            <div className="mb-6 mt-4 flex items-center gap-4 rounded-lg bg-[#EFF6FF] p-6">
               <div className="flex items-center gap-4">
                 <img
                   src="https://powerpeptides.com/_next/image?url=https%3A%2F%2Fimages.powerpeptides.com%2Fimage.png&w=64&q=75"
                   alt="Bacteriostatic Water"
-                  className="w-20 h-20 object-contain"
+                  className="object-contain h-[100px] min-w-[50px]"
                 />
                 <div>
-                  <h4 className="font-bold mb-1">FREE Bacteriostatic Water</h4>
-                  <p className="text-sm text-gray-600">
+                  <h4 className="font-bold">FREE Bacteriostatic Water</h4>
+                  <p className="text-sm">
                     For every $400 you spend, get 1 FREE bottle of Bacteriostatic Water to reconstitute your peptides.
                   </p>
                 </div>

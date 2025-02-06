@@ -6,7 +6,6 @@ import PlaceholderImage from "@modules/common/icons/placeholder-image"
 
 type ThumbnailProps = {
   thumbnail?: string | null
-  // TODO: Fix image typings
   images?: any[] | null
   size?: "small" | "medium" | "large" | "full" | "square"
   isFeatured?: boolean
@@ -27,7 +26,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   return (
     <Container
       className={clx(
-        "relative w-full overflow-hidden p-4 bg-ui-bg-subtle shadow-elevation-card-rest rounded-large group-hover:shadow-elevation-card-hover transition-shadow ease-in-out duration-150",
+        "relative w-full overflow-hidden p-4 bg-ui-bg-subtle shadow-elevation-card-rest group-hover:shadow-elevation-card-hover transition-shadow ease-in-out duration-150 border-none outline-none",
         className,
         {
           "aspect-[11/14]": isFeatured,
@@ -40,6 +39,10 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
         }
       )}
       data-testid={dataTestid}
+      style={{
+        border: 'none',  // Inline border reset
+        outline: 'none', // Inline outline reset
+      }}
     >
       <ImageOrPlaceholder image={initialImage} size={size} />
     </Container>

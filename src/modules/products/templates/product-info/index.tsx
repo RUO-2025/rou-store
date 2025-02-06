@@ -11,17 +11,17 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
 
   return (
     <div id="product-info" className="w-full">
-      <div className="flex flex-col gap-y-4 lg:max-w-[1000px] w-full mx-auto">
+      <div className="flex flex-col gap-y-2 lg:max-w-[1000px] w-full mx-auto">
         <Heading
           level="h2"
-          className="text-3xl leading-10 text-ui-fg-base"
+          className="mb-6 text-2xl font-semibold tracking-tight"
           data-testid="product-title"
         >
           {product.title}
         </Heading>
         <ProductPrice product={product} />
         <Text
-          className="text-lg text-ui-fg-subtle w-full"
+          className="text-base text-ui-fg-subtle w-full"
           data-testid="product-description"
           style={{ maxWidth: "100%", width: "100%" }}
         >

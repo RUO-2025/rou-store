@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { addToCart } from "@lib/data/cart"
 import { useIntersection } from "@lib/hooks/use-in-view"
@@ -32,6 +32,7 @@ export default function ProductActions({
 }: ProductActionsProps) {
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
   const [isAdding, setIsAdding] = useState(false)
+  const [quantity, setQuantity] = useState(1)
   const countryCode = useParams().countryCode as string
 
   // If there is only 1 variant, preselect the options
@@ -40,10 +41,9 @@ export default function ProductActions({
       const variantOptions = optionsAsKeymap(product.variants[0].options)
       setOptions(variantOptions ?? {})
     } else if (product.options) {
-      // Pre-select the first size option by default (assuming size is one of the options)
       const sizeOption = product.options.find(option => option.title.toLowerCase() === 'size')
       if (sizeOption && sizeOption.values?.length) {
-        const firstSize = sizeOption.values[0].value // Assuming the first size is the default
+        const firstSize = sizeOption.values[0].value 
         setOptions((prev) => ({
           ...prev,
           [sizeOption.id]: firstSize,
@@ -63,7 +63,6 @@ export default function ProductActions({
     })
   }, [product.variants, options])
 
-  // Update the options when a variant is selected
   const setOptionValue = (optionId: string, value: string) => {
     setOptions((prev) => ({
       ...prev,
@@ -71,7 +70,6 @@ export default function ProductActions({
     }))
   }
 
-  // Check if the selected options produce a valid variant
   const isValidVariant = useMemo(() => {
     return product.variants?.some((v) => {
       const variantOptions = optionsAsKeymap(v.options)
@@ -79,30 +77,24 @@ export default function ProductActions({
     })
   }, [product.variants, options])
 
-  // Check if the selected variant is in stock
   const inStock = useMemo(() => {
     if (!selectedVariant) return false
-    // If we don't manage inventory or if backorder is allowed, we can always add to cart
     if (!selectedVariant.manage_inventory || selectedVariant.allow_backorder) {
       return true
     }
-    // Check if the inventory_quantity exists and is greater than 0
     return (selectedVariant.inventory_quantity ?? 0) > 0
   }, [selectedVariant])
 
   const actionsRef = useRef<HTMLDivElement>(null)
-
   const inView = useIntersection(actionsRef, "0px")
 
-  // Add the selected variant to the cart
   const handleAddToCart = async () => {
     if (!selectedVariant?.id) return null
-
     setIsAdding(true)
 
     await addToCart({
       variantId: selectedVariant.id,
-      quantity: 1,
+      quantity, // Quantity from the state
       countryCode,
     })
 
@@ -110,54 +102,71 @@ export default function ProductActions({
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-y-2" ref={actionsRef}>
-        <div>
-          {(product.variants?.length ?? 0) > 1 && (
-            <div className="flex flex-col gap-y-4">
-              {(product.options || []).map((option) => {
-                return (
-                  <div key={option.id}>
-                    <OptionSelect
-                      option={option}
-                      current={options[option.id]}
-                      updateOption={setOptionValue}
-                      title={option.title ?? ""}
-                      data-testid="product-options"
-                      disabled={!!disabled || isAdding}
-                    />
-                  </div>
-                )
-              })}
-              <Divider />
-            </div>
-          )}
+    <div className="flex flex-col gap-y-2" ref={actionsRef}>
+      <div>
+        {(product.variants?.length ?? 0) > 1 && (
+          <div className="flex flex-col gap-y-4">
+            {(product.options || []).map((option) => {
+              return (
+                <div key={option.id}>
+                  <OptionSelect
+                    option={option}
+                    current={options[option.id]}
+                    updateOption={setOptionValue}
+                    title={option.title ?? ""}
+                    data-testid="product-options"
+                    disabled={!!disabled || isAdding}
+                  />
+                </div>
+              )
+            })}
+            <Divider />
+          </div>
+        )}
+      </div>
+
+      {/* Flex container for quantity and add-to-cart */}
+      <div className="flex items-center gap-4">
+        {/* Quantity Selector */}
+        <div className="flex flex-col gap-2 w-1/4">
+          <select
+            id="quantity-selector"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            className="bg-[#0033660A] rounded-xl px-6 py-2"
+            disabled={isAdding || !inStock || !!disabled}
+          >
+            {[...Array(100)].map((_, idx) => (
+              <option key={idx + 1} value={idx + 1}>
+                {idx + 1}
+              </option>
+            ))}
+          </select>
         </div>
 
-       
+        {/* Add to Cart Button */}
         <Button
           onClick={handleAddToCart}
           disabled={!!disabled || isAdding || !isValidVariant || !inStock}
-          variant="primary"
-          className="w-full h-10"
+          className="w-full h-10 flex-1 bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 font-medium"
           isLoading={isAdding}
           data-testid="add-product-button"
         >
           {isAdding ? "Adding..." : "Add to cart"}
         </Button>
-
-        <MobileActions
-          product={product}
-          variant={selectedVariant}
-          options={options}
-          updateOptions={setOptionValue}
-          inStock={inStock}
-          handleAddToCart={handleAddToCart}
-          isAdding={isAdding}
-          show={!inView}
-          optionsDisabled={!!disabled || isAdding}
-        />
       </div>
-    </>
+
+      <MobileActions
+        product={product}
+        variant={selectedVariant}
+        options={options}
+        updateOptions={setOptionValue}
+        inStock={inStock}
+        handleAddToCart={handleAddToCart}
+        isAdding={isAdding}
+        show={!inView}
+        optionsDisabled={!!disabled || isAdding}
+      />
+    </div>
   )
 }

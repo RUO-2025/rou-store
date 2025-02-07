@@ -25,23 +25,39 @@ export default async function ProductRail({
   if (!pricedProducts) {
     return null
   }
-console.log(collection)
+
   return (
-    <div className="content-container py-12 small:py-24">
-      <div className="flex justify-between mb-8">
-        <Text className="text-3xl">{collection.title}</Text>
+    <div className="content-container flex flex-col px-3 py-10 md:py-10">
+{/* Header section with title and View All link (original position) */}
+<div className="mb-5 flex flex-wrap items-center gap-x-6">
+  <Text className="text-[2rem] font-medium leading-[2.25rem] flex-shrink-0">
+    {collection.title}
+  </Text>
+  <div className="hidden md:flex">
+    <InteractiveLink href={`/collections/${collection.handle}`}>
+      View all
+    </InteractiveLink>
+  </div>
+</div>
+
+
+
+
+      {/* Product Grid */}
+      <ul className="ais-Hits-list grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-x-2 gap-y-2 lg:gap-x-6 lg:gap-y-8">
+        {pricedProducts.map((product) => (
+          <li key={product.id}>
+            <ProductPreview product={product} region={region} isFeatured />
+          </li>
+        ))}
+      </ul>
+
+      {/* "View All" link for medium screens (centered below products) */}
+      <div className="mt-6 md:hidden flex justify-center">
         <InteractiveLink href={`/collections/${collection.handle}`}>
           View all
         </InteractiveLink>
       </div>
-      <ul className="grid grid-cols-2 small:grid-cols-5 gap-x-6 gap-y-24 small:gap-y-36">
-        {pricedProducts &&
-          pricedProducts.map((product) => (
-            <li key={product.id}>
-              <ProductPreview product={product} region={region} isFeatured />
-            </li>
-          ))}
-      </ul>
     </div>
   )
 }

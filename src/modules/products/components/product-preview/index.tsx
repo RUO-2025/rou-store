@@ -3,7 +3,6 @@ import type { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import PreviewPrice from "./price"
 import AddToCartButton from "./AddToCartButton"
-import { Star } from "lucide-react" // Import Star icon for tags
 
 type ProductPreviewProps = {
   product: HttpTypes.StoreProduct
@@ -31,47 +30,55 @@ export default function ProductPreview({
   const productIsPopular = product.tags?.some(tag => tag.value === "Popular") || isPopular;
 
   return (
-    <div className="flex flex-col bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition-shadow">
+    <div className="flex flex-col bg-white rounded-2xl border border-gray-200 transition-shadow shadow-md">
       {/* Product Link Wrapper */}
-      <LocalizedClientLink href={`/products/${product.handle}`} className="flex-1">
-        <div className="relative h-[250px]">
-          <div className="w-full overflow-hidden p-4"
-            style={{
-              backgroundImage: `radial-gradient(45.54% 52.4% at 50% 61.9%, 
-                rgb(255, 255, 255) 0%, 
-                rgb(246, 249, 255) 25%, 
-                rgb(239, 244, 255) 100%), 
-                linear-gradient(360deg, 
-                rgba(255, 255, 255, 0.376) -0.12%, 
-                rgba(255, 255, 255, 0.75) 99.88%)`
-            }}
-          >
-            {/* Directly use img tag to display the product image */}
-            <img
-              src={product.thumbnail}
-              alt={product.title}
-              className="h-56 w-full object-cover bg-transparent"
-            />
+      <LocalizedClientLink href={`/products/${product.handle}`} className="flex-1 group"> {/* Added 'group' here */}
+        <div
+          className="rounded-t-xl relative h-[208px]"
+          style={{
+            backgroundImage: `radial-gradient(45.54% 52.4% at 50% 61.9%, 
+              rgb(255, 255, 255) 0%, 
+              rgb(246, 249, 255) 25%, 
+              rgb(239, 244, 255) 100%), 
+              linear-gradient(360deg, 
+              rgba(255, 255, 255, 0.376) -0.12%, 
+              rgba(255, 255, 255, 0.75) 99.88%)`
+          }}
+        >
+          {/* Image with hover zoom effect */}
+          <img
+            src={product.thumbnail}
+            alt={product.title}
+            className="bg-transparent h-full w-full object-contain p-4 transition-transform duration-300 ease-in-out group-hover:scale-110"
+          />
+
 
             {/* Product Tags */}
             {productIsPopular && (
-              <span className="absolute top-2 right-2 flex items-center gap-x-1 bg-yellow-300 text-yellow-900 text-xs font-bold px-2 py-1 rounded-md shadow-lg z-20">
-                <Star className="w-4 h-4 text-yellow-600" /> Popular
+             <span
+             className="absolute right-0 top-4 flex items-center gap-1 rounded-l-[4px] bg-white p-1 px-2 text-xs"
+             style={{ boxShadow: "0px 2px 30px 0px rgba(0, 0, 0, 0.08)" }}
+           >
+                <img src="/star.png" alt="img" height={12} width={12} /> Popular
               </span>
             )}
+            <div className="absolute -bottom-[12px] left-0 drop-shadow-lg">
             {productIsNew && (
-              <span className="absolute top-2 left-2 flex items-center gap-x-1 bg-blue-300 text-blue-900 text-xs font-bold px-2 py-1 rounded-md shadow-lg z-20">
-                <Star className="w-4 h-4 text-blue-600" /> New
+             <span
+             className="bg-white p-1 pr-4 text-xs font-bold uppercase tracking-wider text-[#008080] shadow"
+             style={{ clipPath: "polygon(100% 0, 0 0, 0 100%, 100% 100%, 90% 50%)" }}
+           >           
+              NEW
               </span>
             )}
+            </div>
           </div>
-        </div>
 
         {/* Product Info */}
         <div className="p-4 flex flex-col gap-1 text-center w-full">
-          <h3 className="text-base font-semibold text-gray-900">{product.title}</h3>
-          <p className="text-sm text-gray-600">{product.collection?.title || "Category"}</p>
-          <div className="mt-4 text-center text-xl font-bold text-gray-500">
+          <h3 className="line-clamp-2 text-base font-medium text-black-0">{product.title}</h3>
+          <p className="text-center text-xs text-gray-600">{product.collection?.title || "Category"}</p>
+          <div className="mt-4 text-center text-lg font-semibold text-gray-700">
             {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
           </div>
         </div>

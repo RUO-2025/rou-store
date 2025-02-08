@@ -45,7 +45,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
       </div>
 
       {/* Product Content */}
-      <div className="content-container py-6 relative">
+      <div className="content-container py-6 relative overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Left Column - Image and Badges */}
           <div className="relative">

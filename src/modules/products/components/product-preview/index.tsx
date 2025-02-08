@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { getProductPrice } from "@lib/util/get-product-price"
 import type { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"

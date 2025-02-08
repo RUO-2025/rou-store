@@ -104,26 +104,26 @@ export default function ProductActions({
   return (
     <div className="flex flex-col gap-y-2" ref={actionsRef}>
       <div>
-        {(product.variants?.length ?? 0) > 1 && (
-          <div className="flex flex-col gap-y-4">
-            {(product.options || []).map((option) => {
-              return (
-                <div key={option.id}>
-                  <OptionSelect
-                    option={option}
-                    current={options[option.id]}
-                    updateOption={setOptionValue}
-                    title={option.title ?? ""}
-                    data-testid="product-options"
-                    disabled={!!disabled || isAdding}
-                  />
-                </div>
-              )
-            })}
-            <Divider />
-          </div>
-        )}
-      </div>
+        {(product.variants?.length ?? 0) >= 1 && (  // Changed from > 1 to >= 1
+  <div className="flex flex-col gap-y-4">
+    {(product.options || []).map((option) => {
+      return (
+        <div key={option.id}>
+          <OptionSelect
+            option={option}
+            current={options[option.id]}
+            updateOption={setOptionValue}
+            title={option.title ?? ""}
+            data-testid="product-options"
+            disabled={!!disabled || isAdding}
+          />
+        </div>
+      )
+    })}
+    <Divider  className="w-stretch"/>
+  </div>
+)}
+</div>
 
       {/* Flex container for quantity and add-to-cart */}
       <div className="flex items-center gap-4">

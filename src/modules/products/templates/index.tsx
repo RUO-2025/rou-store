@@ -65,8 +65,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
                 <div className="gap-x-3 gap-y-3">
                   <span className="relative top-[5px] mr-2 inline-block h-6 w-6 min-w-[1.5rem] max-w-[1.5rem]">ⓘ</span>
                   <p className="text-sm text-gray-600 mt-2">
-                    Product Usage: This product is intended solely for use as a garment for personal wear. It is not 
-                    intended for any other purpose, including but not limited to industrial or hazardous environments.
+                  Product Usage: This product is intended solely for use as a research chemical in vitro and laboratory experimentation by licensed, qualified professionals. It is not approved for human or animal consumption. Misuse, misbranding, or mislabeling as a drug, food, or cosmetic is strictly prohibited. All information provided is for educational purposes only.
                   </p>
                 </div>
               </div>
@@ -74,11 +73,11 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
           </div>
 
           {/* Right Column - Product Info & Description */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             <ProductInfo product={product} />
+            <ProductDescription product={product}/>
             <div className="max-w-[300px] relative">
               <ProductActionsWrapper id={product.id} region={region} />
-              <ProductDescription product={product}/>
             </div>
 
             {/* Shipping Information */}

@@ -21,7 +21,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         </Heading>
         <ProductPrice product={product} />
         <Text
-          className="text-base text-ui-fg-subtle w-full"
+          className="text-base text-ui-fg-subtle w-full mt-2"
           data-testid="product-description"
           style={{ maxWidth: "100%", width: "100%" }}
         >

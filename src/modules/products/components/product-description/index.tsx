@@ -20,9 +20,9 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ product }) => {
   }
 
   return (
-    <div className="rounded-lg bg-[#F5F6F8] p-4">
+    <div className="rounded-lg bg-[#F5F6F8] p-2 lg:p-4">
       <div
-        className="text-[#52525B] text-sm space-y-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:m-0 [&>li]:leading-6"
+        className="text-[#52525B] text-sm space-y-2  [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:m-0 [&>li]:leading-6 lg:text-base"
         dangerouslySetInnerHTML={{ __html: richDescription.content }}
       />
     </div>

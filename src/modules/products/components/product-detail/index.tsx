@@ -46,14 +46,14 @@ const ProductDetails = ({ product }) => {
     <div className="content-container my-16">
       {/* Mobile Menu */}
       <div className="lg:hidden mb-16">
-        <h1 className="text-[48px] leading-[1.15] font-bold mb-16">Table of Contents</h1>
+        <h1 className="text-3xl leading-[1.15] font-semibold mb-16">Table of Contents</h1>
         <ol className="space-y-8 mb-24">
           {sections.map(({ id, label }, index) => (
             <li key={id} className="flex gap-2">
-              <span className="text-[32px] leading-[1.2] text-gray-900">{index + 1}. </span>
+              <span className="text-md leading-[1.0] text-gray-900">{index + 1}. </span>
               <button
                 onClick={() => scrollToSection(id)}
-                className="text-[32px] leading-[1.2] text-[#2F8B99] hover:text-[#236b76] text-left"
+                className="text-md leading-[1.0] text-[#2F8B99] hover:text-[#236b76] text-left"
               >
                 {label}
               </button>
@@ -64,141 +64,205 @@ const ProductDetails = ({ product }) => {
 
       {/* Desktop Navigation */}
       {sections.length > 0 && (
-        <nav className="hidden lg:block border-b mb-8">
-          <ul className="flex gap-8 text-sm text-gray-600">
-            {sections.map(({ id, label }) => (
-              <li key={id}>
-                <button 
-                  onClick={() => scrollToSection(id)} 
-                  className="py-2 hover:text-gray-900 transition-colors"
-                >
-                  {label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+  <nav className="hidden lg:block border-b mb-8">
+    <ul className="flex gap-16 text-md text-gray-900">
+      {sections.map(({ id, label }) => (
+        <li key={id}>
+          <button
+            onClick={() => scrollToSection(id)}
+            className="py-2 relative group"
+          >
+            <span className="text-gray-900 group-hover:text-gray-900 transition-colors">
+              {label}
+            </span>
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#008080] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
 
       {/* Characteristics */}
       {hasContent.characteristics && (
-        <section id="characteristics" className="mb-16">
-          <h2 className="text-[48px] leading-[1.15] mb-12">Characteristics</h2>
-          <div className="space-y-4">
-            {data.characteristics.map((char: { label: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; value: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; }, index: number) => (
-              <div key={index} className={`flex flex-col ${index % 2 === 1 ? 'bg-gray-50' : ''}`}>
-                <div className="p-4">
-                  <div className="text-[24px] leading-[1.2] text-gray-600">{char.label}</div>
-                  <div className="text-[24px] leading-[1.2] mt-2">{char.value}</div>
-                </div>
+  <section id="characteristics" className="mb-16">
+    <div className="flex flex-col lg:flex-row lg:justify-between">
+      <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
+        <h2 className="text-2xl leading-[1.15] font-semibold">Characteristics</h2>
+      </div>
+      <div className="w-full lg:w-8/12">
+        <div className="overflow-hidden">
+          {data.characteristics.map((char: { 
+            label: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; 
+            value: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; 
+          }, index: number) => (
+            <div key={index} className={`flex ${index % 2 === 1 ? 'bg-[#F4F4F5] rounded-lg' : 'bg-white'}`}>
+              <div className="w-1/3 py-3 px-4">
+                <div className="text-md leading-[1.2] text-gray-700">{char.label}</div>
               </div>
-            ))}
-          </div>
-        </section>
-      )}
+              <div className="w-2/3 py-3 px-4">
+                <div className="text-md leading-[1.2] text-gray-700">{char.value}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
 
       {/* Working Mechanism */}
       {hasContent.workingMechanism && (
-        <section id="mechanism" className="mb-16">
-          <h2 className="text-[48px] leading-[1.15] mb-12">How does {product.title} work?</h2>
-          <p className="text-[24px] leading-[1.5] text-gray-600">{data.workingMechanism}</p>
-        </section>
-      )}
+  <section id="mechanism" className="mb-16">
+    <div className="flex flex-col lg:flex-row lg:justify-between">
+      <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
+        <h2 className="text-2xl leading-[1.15] font-semibold">How does {product.title} work?</h2>
+      </div>
+      <div className="w-full lg:w-8/12">
+        <p className="text-md leading-[1.5] text-gray-600">
+          {data.workingMechanism}
+        </p>
+      </div>
+    </div>
+  </section>
+)}
 
       {/* Benefits */}
       {hasContent.benefits && (
-        <section id="benefits" className="mb-16">
-          <h2 className="text-[48px] leading-[1.15] mb-12">Benefits</h2>
-          <ul className="space-y-4">
-            {data.benefits.map((benefit: { description: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; }, index: React.Key | null | undefined) => (
-              <li key={index} className="flex gap-3">
-                <Check className="w-6 h-6 text-green-600 flex-shrink-0 mt-2" />
-                <span className="text-[24px] leading-[1.5] text-gray-600">
-                  {benefit.description}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+  <section id="benefits" className="mb-16">
+    <div className="flex flex-col lg:flex-row lg:justify-between">
+      <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
+        <h2 className="text-2xl leading-[1.15] font-semibold">Benefits</h2>
+      </div>
+      <div className="w-full lg:w-8/12">
+        <ul className="space-y-6">
+          {data.benefits.map((benefit: { 
+            description: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; 
+          }, index: React.Key | null | undefined) => (
+            <li key={index} className="flex gap-3">
+              <Check className="w-4 h-4 text-[#008080] flex-shrink-0 mt-2" />
+              <span className="text-md leading-[1.2] text-gray-700">
+                {benefit.description}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+)}
 
       {/* Side Effects */}
       {hasContent.sideEffects && (
-        <section id="side-effects" className="mb-16">
-          <h2 className="text-[48px] leading-[1.15] mb-12">Side Effects</h2>
-          <ul className="space-y-4">
-            {data.sideEffects.map((effect: { description: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; }, index: React.Key | null | undefined) => (
-              <li key={index} className="text-[24px] leading-[1.5] text-gray-600">
+  <section id="side-effects" className="mb-16">
+    <div className="flex flex-col lg:flex-row lg:justify-between">
+      <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
+        <h2 className="text-2xl leading-[1.15] font-semibold">Side Effects</h2>
+      </div>
+      <div className="w-full lg:w-8/12">
+        <ul className="space-y-6">
+          {data.sideEffects.map((effect: { 
+            description: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; 
+          }, index: React.Key | null | undefined) => (
+            <li key={index} className="flex gap-3">
+              <Check className="w-4 h-4 text-[#008080] flex-shrink-0 mt-2" />
+              <span className="text-md leading-[1.2] text-gray-700">
                 {effect.description}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+)}
       {/* Summary */}
       {hasContent.summary && (
-        <section id="summary" className="mb-16">
-          <h2 className="text-[48px] leading-[1.15] mb-12">Summary</h2>
-          <p className="text-[24px] leading-[1.5] text-gray-600">{data.summary}</p>
-        </section>
-      )}
+  <section id="summary" className="mb-16">
+    <div className="flex flex-col lg:flex-row lg:justify-between">
+      <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
+        <h2 className="text-2xl leading-[1.15] font-semibold">Summary</h2>
+      </div>
+      <div className="w-full lg:w-8/12">
+        <p className="text-md leading-[1.6] text-gray-700">{data.summary}</p>
+      </div>
+    </div>
+  </section>
+)}
 
       {/* Certificate of Analysis */}
       {hasContent.certificates && (
-        <section id="coa" className="mb-16">
-          <h2 className="text-[48px] leading-[1.15] mb-12">Certificate of Analysis (COA)</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data.certificates.map((cert: { url: string | undefined; title: string | undefined; uploadDate: string | number | Date; }, index: React.Key | null | undefined) => (
-              <Dialog key={index}>
-                <DialogTrigger>
-                  <div className="cursor-pointer hover:opacity-90 transition-colors">
-                    <img
-                      src={cert.url}
-                      alt={cert.title}
-                      className="w-full h-64 object-cover rounded-lg"
-                    />
-                    <p className="text-[16px] text-gray-600 mt-2">
-                      Uploaded on: {new Date(cert.uploadDate).toLocaleDateString()}
-                    </p>
-                  </div>
-                </DialogTrigger>
-                <DialogContent className="max-w-4xl">
+  <section id="coa" className="mb-16">
+    <div className="flex flex-col lg:flex-row lg:justify-between">
+      <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
+        <h2 className="text-2xl leading-[1.15] font-semibold">Certificate of Analysis (COA)</h2>
+      </div>
+      <div className="w-full lg:w-8/12">
+        <div className="grid grid-cols-1 gap-6">
+          {data.certificates.map((cert: { 
+            url: string | undefined; 
+            title: string | undefined; 
+            uploadDate: string | number | Date; 
+          }, index: React.Key | null | undefined) => (
+            <Dialog key={index}>
+              <DialogTrigger>
+                <div className="cursor-pointer hover:opacity-90 transition-colors flex justify-start">
                   <img
                     src={cert.url}
                     alt={cert.title}
-                    className="w-full h-auto"
+                    className="w-full h-64 object-contain rounded-lg object-left"
                   />
-                </DialogContent>
-              </Dialog>
-            ))}
-          </div>
-        </section>
-      )}
+                </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl w-full p-6">
+                <div className="w-full bg-white flex items-center justify-center">
+                  <img
+                    src={cert.url}
+                    alt={cert.title}
+                    className="w-full object-contain"
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
 
       {/* References */}
       {hasContent.references && (
-        <section id="references">
-          <h2 className="text-[48px] leading-[1.15] mb-12">References</h2>
-          <ol className="space-y-6">
-            {data.references.map((ref: { link: string | undefined; text: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; }, index: React.Key | null | undefined) => (
-              <li key={index} className="flex gap-2">
-                <span className="font-medium text-[24px]">{index + 1}.</span>
-                <div>
-                  <a
-                    href={ref.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[24px] text-[#2F8B99] hover:text-[#236b76] mb-1 block"
-                  >
-                    {ref.text}
-                  </a>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
-      )}
+  <section id="references" className="mb-16">
+    <div className="flex flex-col lg:flex-row lg:justify-between">
+      <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
+        <h2 className="text-2xl leading-[1.15] font-semibold">References</h2>
+      </div>
+      <div className="w-full lg:w-8/12">
+        <div className="space-y-6">
+          {data.references.map((ref: { 
+            link: string | undefined; 
+            text: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; 
+          }, index: React.Key | null | undefined) => (
+            <div key={index} className="flex gap-3">
+              <Check className="w-4 h-4 text-[#008080] flex-shrink-0 mt-2" />
+              <div>
+                <a
+                  href={ref.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-md leading-[1.5] text-[#008080] hover:text-[#236b76]"
+                >
+                  {ref.text}
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
     </div>
   );
 };

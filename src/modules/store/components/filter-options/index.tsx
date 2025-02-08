@@ -121,7 +121,7 @@ const FilterProducts = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-50 ml-4 rounded-md">
+    <div className="p-6 bg-gray-50 ml-4 rounded-md z-50">
       <h3 className="text-xl font-semibold mb-3">Filter By</h3>
       <hr className="mb-6"/>
       {/* Price Range Filter */}

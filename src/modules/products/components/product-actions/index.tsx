@@ -40,7 +40,6 @@ const CustomQuantitySelector = ({ value, onChange, disabled }: {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Calculate dropdown position when opening
   useEffect(() => {
     if (!isOpen || !buttonRef.current) return
 
@@ -48,15 +47,13 @@ const CustomQuantitySelector = ({ value, onChange, disabled }: {
     const windowHeight = window.innerHeight
     const spaceBelow = windowHeight - buttonRect.bottom
     const spaceAbove = buttonRect.top
-    const dropdownHeight = 250 // max height of dropdown
+    const dropdownHeight = 250
 
-    // Determine if dropdown should appear above or below
     const position = spaceBelow < dropdownHeight && spaceAbove > spaceBelow ? 'top' : 'bottom'
     setDropdownPosition(position)
 
-    // Scroll to show selected value with surrounding options
     if (listRef.current) {
-      const optionHeight = 36 // approximate height of each option
+      const optionHeight = 36
       const scrollPosition = Math.max(0, (value - 3) * optionHeight)
       requestAnimationFrame(() => {
         if (listRef.current) {
@@ -66,7 +63,6 @@ const CustomQuantitySelector = ({ value, onChange, disabled }: {
     }
   }, [isOpen, value])
 
-  // Generate all options but handle scroll position
   const getAllOptions = () => {
     return Array.from({ length: 100 }, (_, i) => i + 1)
   }
@@ -158,17 +154,52 @@ export default function ProductActions({
 
   useEffect(() => {
     if (product.variants?.length === 1) {
+      // Single variant case
       const variantOptions = optionsAsKeymap(product.variants[0].options)
       setOptions(variantOptions ?? {})
     } else if (product.options) {
-      const sizeOption = product.options.find(option => option.title.toLowerCase() === 'size')
-      if (sizeOption && sizeOption.values?.length) {
-        const firstSize = sizeOption.values[0].value 
-        setOptions((prev) => ({
-          ...prev,
-          [sizeOption.id]: firstSize,
-        }))
-      }
+      const optionsMap: Record<string, string> = {}
+
+      // Handle each option type
+      product.options.forEach(option => {
+        if (!option.values?.length) return
+
+        if (option.title.toLowerCase() === 'size') {
+          // Special handling for size options
+          const sizes = option.values
+          let defaultSize: string | undefined
+
+          // Try to find medium size first
+          defaultSize = sizes.find(size => 
+            size.value.toLowerCase() === 'm' || 
+            size.value.toLowerCase() === 'medium'
+          )?.value
+
+          // If no medium, try common sizes in order
+          if (!defaultSize) {
+            const commonSizes = ['l', 'large', 's', 'small']
+            for (const size of commonSizes) {
+              const found = sizes.find(s => s.value.toLowerCase() === size)
+              if (found) {
+                defaultSize = found.value
+                break
+              }
+            }
+          }
+
+          // If still no size found, use middle size or first available
+          if (!defaultSize) {
+            defaultSize = sizes[Math.floor(sizes.length / 2)]?.value || sizes[0].value
+          }
+
+          optionsMap[option.id] = defaultSize
+        } else {
+          // For non-size options, use first available value
+          optionsMap[option.id] = option.values[0].value
+        }
+      })
+
+      setOptions(optionsMap)
     }
   }, [product.variants, product.options])
 
@@ -245,9 +276,7 @@ export default function ProductActions({
         )}
       </div>
 
-      {/* Flex container for quantity and add-to-cart */}
       <div className="flex items-center gap-4 mt-2">
-        {/* Quantity Selector */}
         <div className="w-20">
           <CustomQuantitySelector
             value={quantity}
@@ -256,11 +285,10 @@ export default function ProductActions({
           />
         </div>
 
-        {/* Add to Cart Button */}
         <Button
           onClick={handleAddToCart}
           disabled={!!disabled || isAdding || !isValidVariant || !inStock}
-          className=" w-screen h-10 flex-1 bg-[#008080] text-white px-6 py-2 rounded-xl hover:bg-teal-600 font-medium flex items-center justify-center gap-2 max-w-[theme(spacing.130)] "
+          className="w-screen h-10 flex-1 bg-[#008080] text-white px-6 py-2 rounded-xl hover:bg-teal-600 font-medium flex items-center justify-center gap-2 max-w-[theme(spacing.130)]"
           isLoading={isAdding}
           data-testid="add-product-button"
         >
@@ -283,7 +311,7 @@ export default function ProductActions({
         </Button>
       </div>
 
-      <MobileActions
+      {/* <MobileActions
         product={product}
         variant={selectedVariant}
         options={options}
@@ -293,7 +321,7 @@ export default function ProductActions({
         isAdding={isAdding}
         show={!inView}
         optionsDisabled={!!disabled || isAdding}
-      />
+      /> */}
     </div>
   )
 }

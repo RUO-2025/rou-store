@@ -108,7 +108,7 @@ export default async function PaginatedProducts({
   return (
     <>
       <ul
-        className="grid grid-cols-2 w-full small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8"
+        className="ais-Hits-list grid w-full grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-x-2 gap-y-2 lg:gap-x-6 lg:gap-y-8"
         data-testid="products-list"
       >
         {filteredProducts

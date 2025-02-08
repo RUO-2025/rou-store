@@ -72,7 +72,7 @@ const StoreTemplate = ({
   return (
     <div>
     <div className="my-4 text-2xl-semi mx-6">
-      <h1 data-testid="store-page-title">All products</h1>
+      <h1 data-testid="store-page-title">Peptides for Sale</h1>
     </div>
     <div className="mx-6 mb-6">
     Discover our range of third-party tested peptides. Quality solutions for all of your needs.

@@ -49,7 +49,7 @@ export default async function RelatedProducts({
       {/* Header section */}
       <div className="mb-5 flex flex-wrap items-center gap-x-6">
         <Text className="text-[2rem] font-medium leading-[2.25rem] flex-shrink-0">
-          More from Nootropics
+          More from Power Peptides
         </Text>
         <div className="hidden md:flex">
           <InteractiveLink href={`/collections/${product.collection?.handle}`}>

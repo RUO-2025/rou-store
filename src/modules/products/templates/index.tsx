@@ -17,6 +17,7 @@ import { BeakerIcon, TruckIcon, ShieldCheckIcon } from "lucide-react";
 import ProductDetails from "@modules/products/components/product-detail";
 import Image from "next/image";
 import ProductDescription from "../components/product-description";
+import ShippingTimeDisplay from "./ShippingTimeDisplay";
 
 type ProductTemplateProps = {
   product: HttpTypes.StoreProduct;
@@ -29,11 +30,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
     return notFound();
   }
 
-  // Debugging console logs
-  console.log("Product Loaded:", product);
-  console.log("Product Tags:", product.tags);
-  console.log("Product Metadata:", product.metadata);
-  
   return (
     <>
       {/* Breadcrumb / Collection Link */}
@@ -51,12 +47,12 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
       {/* Product Content */}
       <div className="content-container py-6 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          
           {/* Left Column - Image and Badges */}
           <div className="relative">
-            <div className="relative bg-white rounded-lg p-8">
+            <div className="relative bg-white rounded-lg">
               <ImageGallery
-                images={product?.images[0] ? [product?.images[0]] : []}
+                images={product?.images?.length ? [product.images[0]] : []}
+                product={product}
                 className="w-full max-w-[900px] mx-auto object-contain"
               />
               
@@ -65,7 +61,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
                 <div className="gap-x-3 gap-y-3">
                   <span className="relative top-[5px] mr-2 inline-block h-6 w-6 min-w-[1.5rem] max-w-[1.5rem]">ⓘ</span>
                   <p className="text-sm text-gray-600 mt-2">
-                  Product Usage: This product is intended solely for use as a research chemical in vitro and laboratory experimentation by licensed, qualified professionals. It is not approved for human or animal consumption. Misuse, misbranding, or mislabeling as a drug, food, or cosmetic is strictly prohibited. All information provided is for educational purposes only.
+                    Product Usage: This product is intended solely for use as a research chemical in vitro and laboratory experimentation by licensed, qualified professionals. It is not approved for human or animal consumption. Misuse, misbranding, or mislabeling as a drug, food, or cosmetic is strictly prohibited. All information provided is for educational purposes only.
                   </p>
                 </div>
               </div>
@@ -76,35 +72,32 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
           <div className="flex flex-col gap-4">
             <ProductInfo product={product} />
             <ProductDescription product={product}/>
-            <div className="max-w-[300px] relative">
-              <ProductActionsWrapper id={product.id} region={region} />
+            <div className="max-w-[450px] relative">
+              <Suspense fallback={<div className="animate-pulse h-24 w-full bg-gray-100 rounded-lg" />}>
+                <ProductActionsWrapper id={product.id} region={region} />
+              </Suspense>
             </div>
 
             {/* Shipping Information */}
-            <div className="flex flex-col gap-4 py-4 border-t mt-6">
-              <div className="flex items-center gap-x-3">
+            <div className="flex flex-col gap-y-3 py-4 border-t">
+              <div className="flex items-center">
                 <Zap />
-                <span className="text-ui-fg-base text-base ml-2">
-                  <span className="font-normal">Ships </span>
-                  <span className="font-semibold">Today</span>
-                  <span className="font-normal"> if ordered within </span>
-                  <span className="font-semibold">6 hrs 48 min</span>
-                </span>
+                <ShippingTimeDisplay />
               </div>
-              <div className="flex items-center gap-x-3">
-                <Image src="/delivery.png" alt="logo" height={8} width={25}></Image>
+              <div className="flex items-center">
+                <Image src="/delivery.png" alt="logo" height={8} width={25} />
                 <span className="text-ui-fg-base text-base ml-2">
                   Free FedEx next-day delivery within the US on orders over €200, with a tracking number provided.
                 </span>
               </div>
-              <div className="flex text-[#008080] items-center gap-x-3">
+              <div className="flex text-[#008080] items-center">
                 <Verified />
                 <span className="text-base ml-2">Third Party Tested</span>
               </div>
             </div>
 
             {/* Free Gift Promotion */}
-            <div className="mb-6 mt-4 flex items-center gap-4 rounded-lg bg-[#EFF6FF] p-6">
+            <div className="flex items-center rounded-lg bg-[#EFF6FF] p-6">
               <div className="flex items-center gap-4">
                 <img
                   src="https://powerpeptides.com/_next/image?url=https%3A%2F%2Fimages.powerpeptides.com%2Fimage.png&w=64&q=75"

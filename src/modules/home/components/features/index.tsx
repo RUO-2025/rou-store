@@ -43,8 +43,8 @@ export default function FeatureSection() {
         {/* Features Grid - Increased Width */}
         <div className="grid md:grid-cols-3 gap-8 px-6">
           {/* Feature 1 */}
-          <div className="w-full bg-white/50 rounded-lg shadow-lg p-8 relative backdrop-blur-lg">
-            <div className="bg-blue-50 w-14 h-14 rounded-xl flex items-center justify-center mb-5">
+          <div className="w-full bg-white rounded-lg shadow-lg p-8 relative">
+            <div className="bg-blue-50 w-10 h-14 rounded-xl flex items-center justify-center mb-5">
               <Flask className="w-7 h-7 text-gray-900" />
             </div>
             <h3 className="text-2xl font-semibold text-gray-900 mb-4">Unparalleled Quality</h3>
@@ -55,7 +55,7 @@ export default function FeatureSection() {
           </div>
 
           {/* Feature 2 */}
-          <div className="w-full bg-white/50 rounded-lg shadow-lg p-8 relative backdrop-blur-md">
+          <div className="w-full bg-white rounded-lg shadow-lg p-8 relative">
             <div className="bg-blue-50 w-14 h-14 rounded-xl flex items-center justify-center mb-5">
               <Verified className="w-7 h-7 text-gray-900" />
             </div>
@@ -67,7 +67,7 @@ export default function FeatureSection() {
           </div>
 
           {/* Feature 3 */}
-          <div className="w-full bg-white/50 rounded-lg shadow-lg p-8 relative backdrop-blur-md">
+          <div className="w-full bg-white rounded-lg shadow-lg p-8 relative">
             <div className="bg-blue-50 w-14 h-14 rounded-xl flex items-center justify-center mb-5">
               <Image src="/delivery.png" alt="picture" width={30} height={30}/> 
             </div>

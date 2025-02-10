@@ -32,9 +32,9 @@ export default function ProductPreview({
   const productIsPopular = product.tags?.some(tag => tag.value === "Popular") || isPopular;
 
   return (
-    <div className="flex flex-col bg-white rounded-2xl border border-gray-200 transition-shadow shadow-md">
+    <div className="flex flex-col bg-white border border-gray-200 transition-shadow relative  h-[394px] overflow-hidden rounded-large shadow-xl">
       {/* Product Link Wrapper */}
-      <LocalizedClientLink href={`/products/${product.handle}`} className="flex-1 group"> {/* Added 'group' here */}
+      <LocalizedClientLink href={`/products/${product.handle}`} className="group flex h-full flex-col"> {/* Added 'group' here */}
         <div
           className="rounded-t-xl relative h-[208px]"
           style={{
@@ -77,18 +77,20 @@ export default function ProductPreview({
           </div>
 
         {/* Product Info */}
-        <div className="p-4 flex flex-col gap-1 text-center w-full">
+        <div className="p-4 flex flex-col text-center w-full flex-grow">
+          <div className="h-[74px]">
           <h3 className="line-clamp-2 text-base font-medium text-black-0">{product.title}</h3>
           <p className="text-center text-xs text-gray-600">{product.collection?.title || "Category"}</p>
-          <div className="mt-4 text-center text-lg font-semibold text-gray-700">
+          </div>
+          <div className="mb-4 mt-auto text-center text-lg font-medium text-gray-700">
             {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
           </div>
-        </div>
-      </LocalizedClientLink>
-      {/* Add to Cart Button */}
-      <div className="mt-2 w-full px-4 pb-4">
+         {/* Add to Cart Button */}
+      <div className="w-full">
         <AddToCartButton variantId={defaultVariantId} countryCode={countryCode} />
       </div>
+      </div>
+      </LocalizedClientLink>
     </div>
   )
 }

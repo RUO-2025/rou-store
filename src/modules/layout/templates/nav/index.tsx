@@ -53,12 +53,13 @@ export default async function Nav() {
           </LocalizedClientLink> */}
                {process.env.NEXT_PUBLIC_FEATURE_SEARCH_ENABLED && (
                <LocalizedClientLink
-                className="hover:text-ui-fg-base"
+                className="hover:text-ui-fg-base flex items-center"
                   href="/search"
                  scroll={false}
                   data-testid="nav-search-link"
               >
-                  Search
+                <Search size={20} />
+                <span className="hidden sm:inline ml-2">Search</span>
               </LocalizedClientLink>
               )}
           <LocalizedClientLink href="/account" className="hover:opacity-50 hidden sm:inline">

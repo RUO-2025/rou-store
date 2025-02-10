@@ -45,12 +45,22 @@ export default async function Nav() {
 
         {/* Right Side - Icons */}
         <div className="flex items-center gap-x-4">
-          <LocalizedClientLink href="/search" className="hover:opacity-50">
+          {/* <LocalizedClientLink href="/search" className="hover:opacity-50">
             <span className="flex items-center">
               <Search size={20} />
               <span className="hidden sm:inline ml-2">Search</span>
             </span>
-          </LocalizedClientLink>
+          </LocalizedClientLink> */}
+               {process.env.NEXT_PUBLIC_FEATURE_SEARCH_ENABLED && (
+               <LocalizedClientLink
+                className="hover:text-ui-fg-base"
+                  href="/search"
+                 scroll={false}
+                  data-testid="nav-search-link"
+              >
+                  Search
+              </LocalizedClientLink>
+              )}
           <LocalizedClientLink href="/account" className="hover:opacity-50 hidden sm:inline">
             <span className="flex items-center">
               <User size={20} />

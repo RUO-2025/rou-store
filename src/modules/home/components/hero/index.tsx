@@ -37,7 +37,6 @@ const Hero = () => {
           
           <LocalizedClientLink
           href="/store"
-          data-testid="nav-store-link"
            >
           <button className="block w-full rounded-[16px] bg-[#008080] py-4 text-center font-medium text-white transition-colors duration-200 hover:bg-[#028186] lg:max-w-[290px]">
             Buy Peptides
@@ -116,7 +115,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="mt-80 flex justify-center w-full pb-4">
+      <div className="mt-48 flex justify-center w-full pb-4">
         <LocalizedClientLink href="/store" className="w-full flex justify-center">
           <button className="w-full max-w-[800px] rounded-[16px] bg-[#008080] py-4 text-center font-medium text-white transition-colors duration-200 hover:bg-[#028186]">
             Buy Peptides

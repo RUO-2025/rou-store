@@ -77,20 +77,20 @@ export default function ProductPreview({
           </div>
 
         {/* Product Info */}
-        <div className="p-4 flex flex-col text-center w-full flex-grow">
-          <div className="h-[74px]">
+        <div className="pt-4 pl-4 pr-4 flex flex-col text-center w-full flex-grow">
+          <div className="h-[30px]">
           <h3 className="line-clamp-2 text-base font-medium text-black-0">{product.title}</h3>
           <p className="text-center text-xs text-gray-600">{product.collection?.title || "Category"}</p>
           </div>
-          <div className="mb-4 mt-auto text-center text-lg font-medium text-gray-700">
+          <div className="mt-auto text-center text-lg font-medium text-gray-700">
             {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
           </div>
-         {/* Add to Cart Button */}
-      <div className="w-full">
-        <AddToCartButton variantId={defaultVariantId} countryCode={countryCode} />
-      </div>
       </div>
       </LocalizedClientLink>
+      {/* Add to Cart Button */}
+      <div className="w-full p-4 flex flex-col text-center">
+        <AddToCartButton variantId={defaultVariantId} countryCode={countryCode} />
+      </div>
     </div>
   )
 }

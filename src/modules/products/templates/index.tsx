@@ -73,9 +73,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
             <ProductInfo product={product} />
             <ProductDescription product={product}/>
             <div className="max-w-[450px] relative">
-              <Suspense fallback={<div className="animate-pulse h-24 w-full bg-gray-100 rounded-lg" />}>
                 <ProductActionsWrapper id={product.id} region={region} />
-              </Suspense>
             </div>
 
             {/* Shipping Information */}

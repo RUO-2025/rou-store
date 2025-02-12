@@ -358,7 +358,7 @@ const CartDropdown = ({
                   </div>
                 </div>
 
-                <LocalizedClientLink href="/checkout" className="mb-2 flex h-[40px] w-full items-center justify-center rounded-[10px] bg-[#008080] text-sm text-white sm:h-[50px] sm:text-base">
+                <LocalizedClientLink href="/checkout?step=address" className="mb-2 flex h-[40px] w-full items-center justify-center rounded-[10px] bg-[#008080] text-sm text-white sm:h-[50px] sm:text-base">
                   Secure Checkout
                 </LocalizedClientLink>
                 

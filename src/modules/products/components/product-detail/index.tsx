@@ -23,7 +23,19 @@ const ProductDetails = ({ product }) => {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      // Get the element's position relative to the viewport
+      const elementPosition = element.getBoundingClientRect().top;
+      // Get the current scroll position
+      const offsetPosition = elementPosition + window.pageYOffset;
+  
+      // Add offset for both mobile and desktop, but with different values
+      const isDesktop = window.innerWidth >= 1024; // lg breakpoint
+      const offset = isDesktop ? -80 : -60; // -80px for desktop, -60px for mobile
+  
+      window.scrollTo({
+        top: offsetPosition + offset,
+        behavior: 'smooth'
+      });
     }
   };
 

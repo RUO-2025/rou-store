@@ -30,19 +30,27 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
     return notFound();
   }
 
+
   return (
     <>
       {/* Breadcrumb / Collection Link */}
-      <div className="mt-4 ml-12">
-        {product.collection && (
-          <LocalizedClientLink
-            href={`/collections/${product.collection.handle}`}
-            className="text-medium text-ui-fg-muted hover:text-ui-fg-subtle"
-          >
-            {product.collection.title}
-          </LocalizedClientLink>
-        )}
-      </div>
+      <div className="hidden md:block mt-4 ml-12">
+  <LocalizedClientLink
+    href="/"
+    className="text-gray-500 hover:text-gray-700"
+  >
+    Home
+  </LocalizedClientLink>
+  <span className="text-gray-500 mx-2">&gt;</span>
+  <LocalizedClientLink
+    href="/store"
+    className="text-gray-500 hover:text-gray-700"
+  >
+    Products
+  </LocalizedClientLink>
+  <span className="text-gray-500 mx-2">&gt;</span>
+  {product.title}
+</div>
 
       {/* Product Content */}
       <div className="content-container py-6 relative overflow-hidden">

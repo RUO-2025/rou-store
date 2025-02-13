@@ -62,7 +62,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="add-discount-button"
             >
-              Add Promotion Code(s)
+              Add gift card or discount code
             </button>
 
             {/* <Tooltip content="You can add multiple promotion codes">
@@ -74,11 +74,12 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
             <>
               <div className="flex w-full gap-x-2">
                 <Input
+                  label="Please enter code"
                   className="size-full"
                   id="promotion-input"
                   name="code"
                   type="text"
-                  autoFocus={false}
+                  autoFocus={true}
                   data-testid="discount-input"
                 />
                 <SubmitButton

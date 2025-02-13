@@ -110,7 +110,16 @@ const ShippingAddress = ({
           />
         </Container>
       )}
-      <div className="grid grid-cols-2 gap-4">
+       <CountrySelect
+          name="shipping_address.country_code"
+          autoComplete="country"
+          region={cart?.region}
+          value={formData["shipping_address.country_code"]}
+          onChange={handleChange}
+          required
+          data-testid="shipping-country-select"
+        />
+      <div className="grid grid-cols-2 gap-4 mt-4 mb-4">
         <Input
           label="First name"
           name="shipping_address.first_name"
@@ -129,6 +138,16 @@ const ShippingAddress = ({
           required
           data-testid="shipping-last-name-input"
         />
+      </div>
+        <Input
+          label="Company (optional)"
+          name="shipping_address.company"
+          value={formData["shipping_address.company"]}
+          onChange={handleChange}
+          autoComplete="organization"
+          data-testid="shipping-company-input"
+        />
+        <br />
         <Input
           label="Address"
           name="shipping_address.address_1"
@@ -138,14 +157,7 @@ const ShippingAddress = ({
           required
           data-testid="shipping-address-input"
         />
-        <Input
-          label="Company"
-          name="shipping_address.company"
-          value={formData["shipping_address.company"]}
-          onChange={handleChange}
-          autoComplete="organization"
-          data-testid="shipping-company-input"
-        />
+      <div className="grid grid-cols-3 gap-4 mt-4">
         <Input
           label="Postal code"
           name="shipping_address.postal_code"
@@ -163,15 +175,6 @@ const ShippingAddress = ({
           onChange={handleChange}
           required
           data-testid="shipping-city-input"
-        />
-        <CountrySelect
-          name="shipping_address.country_code"
-          autoComplete="country"
-          region={cart?.region}
-          value={formData["shipping_address.country_code"]}
-          onChange={handleChange}
-          required
-          data-testid="shipping-country-select"
         />
         <Input
           label="State / Province"

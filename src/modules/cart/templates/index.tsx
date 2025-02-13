@@ -3,6 +3,7 @@ import Summary from "./summary"
 import EmptyCartMessage from "../components/empty-cart-message"
 import SignInPrompt from "../components/sign-in-prompt"
 import Divider from "@modules/common/components/divider"
+import CartProgressBars from "../components/cart-progress-bar"
 import { HttpTypes } from "@medusajs/types"
 
 const CartTemplate = ({
@@ -12,6 +13,8 @@ const CartTemplate = ({
   cart: HttpTypes.StoreCart | null
   customer: HttpTypes.StoreCustomer | null
 }) => {
+  const currentAmount = cart?.subtotal || 0;
+
   return (
     <div className="py-12">
       <div className="content-container" data-testid="cart-container">
@@ -24,7 +27,25 @@ const CartTemplate = ({
                   <Divider />
                 </>
               )}
+              <div className="mb-10 mt-6">
+                <CartProgressBars currentAmount={currentAmount} />
+              </div>
               <ItemsTemplate cart={cart} />
+              <div className="flex items-center rounded-lg bg-[#EFF6FF] p-6">
+              <div className="flex items-center gap-4">
+                <img
+                  src="/image.png"
+                  alt="Bacteriostatic Water"
+                  className="object-contain h-[100px] min-w-[50px]"
+                />
+                <div>
+                  <h4 className="font-bold">FREE Bacteriostatic Water</h4>
+                  <p className="text-sm">
+                    For every $400 you spend, get 1 FREE bottle of Bacteriostatic Water to reconstitute your peptides.
+                  </p>
+                </div>
+              </div>
+            </div>
             </div>
             <div className="relative">
               <div className="flex flex-col gap-y-8 sticky top-12">

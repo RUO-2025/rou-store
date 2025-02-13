@@ -98,7 +98,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
             <div className="flex items-center rounded-lg bg-[#EFF6FF] p-6">
               <div className="flex items-center gap-4">
                 <img
-                  src="https://powerpeptides.com/_next/image?url=https%3A%2F%2Fimages.powerpeptides.com%2Fimage.png&w=64&q=75"
+                  src="/image.png"
                   alt="Bacteriostatic Water"
                   className="object-contain h-[100px] min-w-[50px]"
                 />

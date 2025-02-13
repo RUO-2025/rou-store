@@ -10,7 +10,7 @@ const MobileFilter = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className="md:hidden"> {/* Visible only on mobile */}
+    <div className="lg:hidden relative"> {/* Added relative positioning */}
       {/* Filter Button */}
       <button
         onClick={() => setIsOpen(true)}
@@ -21,9 +21,13 @@ const MobileFilter = () => {
       </button>
 
       {/* Drawer Component */}
-      <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <Drawer.Trigger className="hidden" />
-        <Drawer.Content>
+      <Drawer 
+        open={isOpen} 
+        onOpenChange={setIsOpen}
+        className="z-40" // Higher than navbar's z-30
+      >
+        <Drawer.Trigger className="hidden" /> {/* Removed unnecessary z-index */}
+        <Drawer.Content className="z-40"> {/* Higher than navbar's z-30 */}
           <Drawer.Header>
             <Drawer.Title>Filters</Drawer.Title>
           </Drawer.Header>
@@ -33,7 +37,7 @@ const MobileFilter = () => {
           <Drawer.Footer>
             <button
               onClick={() => setIsOpen(false)}
-              className="w-full py-2 bg-blue-500 text-white rounded-md"
+              className="w-full py-2 bg-[#008080] text-white rounded-md"
             >
               Apply Filters
             </button>

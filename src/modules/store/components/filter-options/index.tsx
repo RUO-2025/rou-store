@@ -121,14 +121,14 @@ const FilterProducts = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-50 ml-4 rounded-md">
-      <h3 className="text-xl font-semibold mb-3">Filter By</h3>
-      <hr className="mb-6"/>
+    <div className="p-4 sm:p-6 bg-gray-50 ml-0 sm:ml-4 rounded-md w-full sm:w-auto">
+      <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-3">Filter By</h3>
+      <hr className="mb-4 sm:mb-2"/>
       {/* Price Range Filter */}
-      <div className="mb-6">
-        <label className="block text-lg mb-4 text-gray-600">Price Range</label>
-        <div className="flex items-center gap-4 mb-4">
-          <div className="bg-gray-100 rounded-lg px-4 py-2 flex gap-2">
+      <div className="mb-4 sm:mb-2">
+        <label className="block text-base sm:text-lg mb-2 sm:mb-2 text-gray-600">Price Range</label>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-2 mb-2">
+          <div className="bg-gray-100 rounded-lg px-3 sm:px-4 py-1 flex gap-2 w-full sm:w-auto">
             <span className="text-gray-400">€</span>
             <input
               type="number"
@@ -136,11 +136,11 @@ const FilterProducts = () => {
               min={MIN_PRICE}
               max={MAX_PRICE}
               onChange={(e) => handlePriceChange([Number(e.target.value), priceRange[1]])}
-              className="w-20 bg-transparent outline-none"
+              className="w-full sm:w-20 bg-transparent outline-none"
             />
           </div>
-          <span className="text-gray-400">—</span>
-          <div className="bg-gray-100 rounded-lg px-4 py-2 flex gap-2">
+          <span className="text-gray-400 self-center">—</span>
+          <div className="bg-gray-100 rounded-lg px-3 sm:px-4 py-1 flex gap-2 w-full sm:w-auto">
             <span className="text-gray-400">€</span>
             <input
               type="number"
@@ -148,7 +148,7 @@ const FilterProducts = () => {
               min={MIN_PRICE}
               max={MAX_PRICE}
               onChange={(e) => handlePriceChange([priceRange[0], Number(e.target.value)])}
-              className="w-20 bg-transparent outline-none"
+              className="w-full sm:w-20 bg-transparent outline-none"
             />
           </div>
         </div>
@@ -175,7 +175,7 @@ const FilterProducts = () => {
           renderThumb={({ props }) => (
             <div
               {...props}
-              className="w-5 h-5 bg-blue-500 rounded-full border-2 border-white shadow-md focus:outline-none"
+              className="w-4 sm:w-5 h-4 sm:h-5 bg-blue-500 rounded-full border-2 border-white shadow-md focus:outline-none"
             />
           )}
         />
@@ -185,13 +185,13 @@ const FilterProducts = () => {
       <div>
         <button
           onClick={() => setIsTagsOpen(!isTagsOpen)}
-          className="flex items-center justify-between w-full text-lg mb-4"
+          className="flex items-center justify-between w-full text-base sm:text-lg mb-1 sm:mb-2"
         >
           <span className="text-gray-600">Tags</span>
-          <ChevronDown className={`w-5 h-5 transition-transform ${isTagsOpen ? "transform rotate-180" : ""}`} />
+          <ChevronDown className={`w-4 sm:w-5 h-4 sm:h-5 transition-transform ${isTagsOpen ? "transform rotate-180" : ""}`} />
         </button>
         {isTagsOpen && (
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {availableTags.map(({ name, count }) => (
               <label key={name} className="flex items-center gap-2 cursor-pointer">
                 <div className="relative flex items-center">
@@ -199,11 +199,11 @@ const FilterProducts = () => {
                     type="checkbox"
                     checked={selectedTags.includes(name)}
                     onChange={() => handleTagChange(name)}
-                    className="w-5 h-5 border-2 rounded-3xl text-blue-500 focus:ring-0 focus:ring-offset-0"
+                    className="w-4 sm:w-5 h-4 sm:h-5 border-2 rounded-3xl text-blue-500 focus:ring-0 focus:ring-offset-0"
                   />
                 </div>
-                <span className="flex-1">{name}</span>
-                <span className="text-gray-500">({count})</span>
+                <span className="flex-1 text-sm sm:text-base">{name}</span>
+                <span className="text-gray-500 text-sm sm:text-base">({count})</span>
               </label>
             ))}
           </div>
@@ -211,25 +211,25 @@ const FilterProducts = () => {
       </div>
 
       {/* Collections Filter */}
-      <div className="my-6">
+      <div className="my-4 sm:my-6">
         <button
           onClick={() => setIsCollectionsOpen(!isCollectionsOpen)}
-          className="flex items-center justify-between w-full text-lg mb-4"
+          className="flex items-center justify-between w-full text-base sm:text-lg sm:mb-1"
         >
           <span className="text-gray-600">Collections</span>
-          <ChevronDown className={`w-5 h-5 transition-transform ${isCollectionsOpen ? "transform rotate-180" : ""}`} />
+          <ChevronDown className={`w-4 sm:w-5 h-4 sm:h-5 transition-transform ${isCollectionsOpen ? "transform rotate-180" : ""}`} />
         </button>
         {isCollectionsOpen && (
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {availableCollections.map(({ id, title }) => (
               <label key={id} className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={selectedCollection === id}
                   onChange={() => handleCollectionChange(id)}
-                  className="w-5 h-5 border-2 rounded-3xl text-blue-500 focus:ring-0 focus:ring-offset-0"
+                  className="w-4 sm:w-5 h-4 sm:h-5 border-2 rounded-3xl text-blue-500 focus:ring-0 focus:ring-offset-0"
                 />
-                <span className="flex-1">{title}</span>
+                <span className="flex-1 text-sm sm:text-base">{title}</span>
               </label>
             ))}
           </div>

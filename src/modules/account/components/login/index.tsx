@@ -4,6 +4,7 @@ import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import Input from "@modules/common/components/input"
 import { useActionState } from "react"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -57,6 +58,14 @@ const Login = ({ setCurrentView }: Props) => {
         </button>
         .
       </span>
+      {/* Forgot Password Link */}
+      <LocalizedClientLink 
+        href="/request-reset-password" 
+        className="text-ui-fg-base text-small-regular underline mt-4"
+        data-testid="forgot-password-link"
+      >
+        Forgot Password?
+      </LocalizedClientLink>
     </div>
   )
 }

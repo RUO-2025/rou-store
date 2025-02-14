@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Button } from "@medusajs/ui"
 import Input from "@modules/common/components/input"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 // import { Card } from "@medusajs/ui"
 
 export default function RequestResetPassword() {
@@ -70,6 +71,17 @@ export default function RequestResetPassword() {
             {loading ? "Sending..." : "Send Email"}
           </Button>
         </form>
+        <div className=" text-center mt-6">
+        <span className="text-center text-ui-fg-base text-small-regular mt-2">Remember password?
+      <LocalizedClientLink 
+        href="/account" 
+        className="text-ui-fg-base text-small-regular underline mt-4"
+      >
+        Log in
+      </LocalizedClientLink>
+      .
+      </span>
+      </div>
       </div>
     </div>
   )

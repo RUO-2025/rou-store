@@ -191,7 +191,7 @@ const Shipping: React.FC<ShippingProps> = ({
 
           <Button
             size="large"
-            className="mt-6"
+            className="mt-6 bg-[#008080] rounded-lg hover:bg-[#3c9696]"
             onClick={handleSubmit}
             isLoading={isLoading}
             // disabled={!cart.shipping_methods?.[0]}

@@ -416,7 +416,7 @@ const ShippingAddress = ({
                         products are for professional research purposes only, not for human/animal consumption, food additives,
                         drugs, or household chemicals. Power Peptides LLC assumes no responsibility for use and provides no
                         application guidance.   {" "}
-                        <a href="#" className="text-blue-600 hover:underline">
+                        <a href="#" className="text-[#008080] hover:underline">
                           Terms & Conditions
                         </a>
                       </div>

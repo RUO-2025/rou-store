@@ -328,6 +328,10 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
       throw new Error("No existing cart found when setting addresses")
     }
 
+    if(!formData.get("terms")){
+      throw new Error("You must accept the terms and conditions")
+    }
+
     const data = {
       shipping_address: {
         first_name: formData.get("shipping_address.first_name"),

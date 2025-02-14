@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Radio as RadioGroupOption } from "@headlessui/react"
 import { Text, clx } from "@medusajs/ui"
 import React, { useContext, useMemo, type JSX } from "react"
@@ -10,8 +11,13 @@ import { CardElement } from "@stripe/react-stripe-js"
 import { StripeCardElementOptions } from "@stripe/stripe-js"
 import PaymentTest from "../payment-test"
 import { StripeContext } from "../payment-wrapper/stripe-wrapper"
+import PaymentButton from "../payment-button"
+import Spinner from "@modules/common/icons/spinner"
 
 type PaymentContainerProps = {
+  paymentMethods: any[]
+  loading?: boolean
+  cart: any
   paymentProviderId: string
   selectedPaymentOptionId: string | null
   disabled?: boolean
@@ -19,14 +25,72 @@ type PaymentContainerProps = {
   children?: React.ReactNode
 }
 
+// const PaymentContainer: React.FC<PaymentContainerProps> = ({
+//   loading,
+//   cart,
+//   paymentProviderId,
+//   selectedPaymentOptionId,
+//   paymentInfoMap,
+//   disabled = false,
+//   children,
+// }) => {
+//   const isDevelopment = process.env.NODE_ENV === "development"
+//   const isSelected = selectedPaymentOptionId === paymentProviderId
+
+//   return (
+//     <RadioGroupOption
+//       key={paymentProviderId}
+//       value={paymentProviderId}
+//       disabled={disabled}
+//       className={clx(
+//         "flex flex-col gap-y-4 p-6 border transition-all duration-200",
+//         {
+//           "border-green-500 bg-gray-100": isSelected,
+//           "border-gray-300 bg-white hover:shadow-md": !isSelected,
+//         }
+//       )}
+//     >
+//       <div className="flex items-center justify-between">
+//         <div className="flex items-center gap-x-4">
+//           <Radio checked={isSelected} />
+//           <Text className="font-semibold text-lg">
+//             {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
+//           </Text>
+//         </div>
+//         <div className="flex items-center gap-x-2">
+//           <span>{paymentInfoMap[paymentProviderId]?.icon}</span>
+//           {loading && isSelected && <span><Spinner /></span>}
+//         </div>
+//       </div>
+//       {isSelected && !loading && (
+//         <div className="text-gray-600 text-sm">
+//           <p>
+//             Complete your purchase securely with this payment method. After clicking
+//             'Pay', you'll be redirected to the appropriate payment gateway.
+//           </p>
+//         </div>
+//       )}
+//       {children}
+//       {isSelected && !loading && (
+//         <div className="mt-4">
+//           <PaymentButton cart={cart} data-testid="submit-order-button" />
+//         </div>
+//       )}
+//     </RadioGroupOption>
+//   )
+// }
+
 const PaymentContainer: React.FC<PaymentContainerProps> = ({
+  paymentMethods,
+  loading,
+  cart,
   paymentProviderId,
   selectedPaymentOptionId,
   paymentInfoMap,
   disabled = false,
   children,
 }) => {
-  const isDevelopment = process.env.NODE_ENV === "development"
+  const isSelected = selectedPaymentOptionId === paymentProviderId
 
   return (
     <RadioGroupOption
@@ -34,38 +98,52 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
       value={paymentProviderId}
       disabled={disabled}
       className={clx(
-        "flex flex-col gap-y-2 text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
+        "flex flex-col gap-y-4 p-6 border transition-all duration-200",
         {
-          "border-ui-border-interactive":
-            selectedPaymentOptionId === paymentProviderId,
+          "border-green-500 bg-gray-100": isSelected,
+          "border-gray-300 bg-white hover:shadow-md": !isSelected,
+          "rounded-t-lg": paymentProviderId === paymentMethods[0].id, // First item
+          "rounded-b-lg": paymentProviderId === paymentMethods[paymentMethods.length - 1].id, // Last item
         }
       )}
     >
-      <div className="flex items-center justify-between ">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
-          <Radio checked={selectedPaymentOptionId === paymentProviderId} />
-          <Text className="text-base-regular">
+          <Radio checked={isSelected} />
+          <Text className="font-semibold text-lg">
             {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
           </Text>
-          {isManual(paymentProviderId) && isDevelopment && (
-            <PaymentTest className="hidden small:block" />
-          )}
         </div>
-        <span className="justify-self-end text-ui-fg-base">
-          {paymentInfoMap[paymentProviderId]?.icon}
-        </span>
+        <div className="flex items-center gap-x-2">
+          <span>{paymentInfoMap[paymentProviderId]?.icon}</span>
+          {loading && isSelected && <span><Spinner /></span>}
+        </div>
       </div>
-      {isManual(paymentProviderId) && isDevelopment && (
-        <PaymentTest className="small:hidden text-[10px]" />
+      {isSelected && !loading && (
+        <div className="text-gray-600 text-sm">
+          <p>
+            Complete your purchase securely with this payment method. After clicking
+            'Pay', you'll be redirected to the appropriate payment gateway.
+          </p>
+        </div>
       )}
       {children}
+      {isSelected && !loading && (
+        <div className="mt-4">
+          <PaymentButton cart={cart} data-testid="submit-order-button" />
+        </div>
+      )}
     </RadioGroupOption>
   )
 }
 
+
 export default PaymentContainer
 
 export const StripeCardContainer = ({
+  paymentMethods,
+  loading,
+  cart,
   paymentProviderId,
   selectedPaymentOptionId,
   paymentInfoMap,
@@ -99,6 +177,9 @@ export const StripeCardContainer = ({
 
   return (
     <PaymentContainer
+      paymentMethods={paymentMethods}
+      loading={loading}
+      cart={cart}
       paymentProviderId={paymentProviderId}
       selectedPaymentOptionId={selectedPaymentOptionId}
       paymentInfoMap={paymentInfoMap}
@@ -120,9 +201,12 @@ export const StripeCardContainer = ({
                 setCardComplete(e.complete)
               }}
             />
+            {/* <div>
+              <PaymentButton cart={cart} data-testid="submit-order-button" />
+            </div> */}
           </div>
         ) : (
-          <SkeletonCardDetails />
+          !loading && <SkeletonCardDetails />
         ))}
     </PaymentContainer>
   )

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Checkbox, Label } from "@medusajs/ui"
 import React from "react"
 
@@ -17,7 +19,7 @@ const CheckboxWithLabel: React.FC<CheckboxProps> = ({
   'data-testid': dataTestId
 }) => {
   return (
-    <div className="flex items-center space-x-2 ">
+    <div className="flex items-start space-x-2 ">
       <Checkbox
         className="text-base-regular flex items-center gap-x-2"
         id="checkbox"

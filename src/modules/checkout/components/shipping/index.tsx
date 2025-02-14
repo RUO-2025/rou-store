@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 "use client"
 
 import { RadioGroup, Radio } from "@headlessui/react"
@@ -64,27 +66,29 @@ const Shipping: React.FC<ShippingProps> = ({
     router.push(pathname + "?step=delivery", { scroll: false })
   }
 
-  const handleSubmit = () => {
-    router.push(pathname + "?step=payment", { scroll: false })
-  }
-
-  const handleSetShippingMethod = async (id: string) => {
-    setError(null)
-    let currentId: string | null = null
+  const handleSubmit = async () => {
     setIsLoading(true)
-    setShippingMethodId((prev) => {
-      currentId = prev
-      return id
-    })
-
-    await setShippingMethod({ cartId: cart.id, shippingMethodId: id })
+    await setShippingMethod({ cartId: cart.id, shippingMethodId })
+      .then(() => {
+        router.push(pathname + "?step=payment", { scroll: false })
+      })
       .catch((err) => {
-        setShippingMethodId(currentId)
+        // setShippingMethodId(currentId)
         setError(err.message)
       })
       .finally(() => {
         setIsLoading(false)
       })
+  }
+
+  const handleSetShippingMethod = async (id: string) => {
+    setError(null)
+    let currentId: string | null = null
+    // setIsLoading(true)
+    setShippingMethodId((prev) => {
+      currentId = prev
+      return id
+    })
   }
 
   useEffect(() => {
@@ -190,7 +194,8 @@ const Shipping: React.FC<ShippingProps> = ({
             className="mt-6"
             onClick={handleSubmit}
             isLoading={isLoading}
-            disabled={!cart.shipping_methods?.[0]}
+            // disabled={!cart.shipping_methods?.[0]}
+            disabled={!shippingMethodId}
             data-testid="submit-delivery-option-button"
           >
             Continue to payment

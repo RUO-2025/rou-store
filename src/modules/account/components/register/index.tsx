@@ -40,7 +40,6 @@ const Register = ({ setCurrentView }: Props) => {
             name="last_name"
             required
             autoComplete="family-name"
-            data-testid="last-name-input"
           />
           <Input
             label="Email"
@@ -68,23 +67,23 @@ const Register = ({ setCurrentView }: Props) => {
         </div>
         <ErrorMessage error={message} data-testid="register-error" />
         <span className="text-center text-ui-fg-base text-small-regular mt-6">
-          By creating an account, you agree to Medusa Store&apos;s{" "}
+          By creating an account, you agree to our {" "}
           <LocalizedClientLink
-            href="/content/privacy-policy"
+            href="/privacy-policy"
             className="underline"
           >
             Privacy Policy
           </LocalizedClientLink>{" "}
           and{" "}
           <LocalizedClientLink
-            href="/content/terms-of-use"
+            href="/terms-and-conditions"
             className="underline"
           >
             Terms of Use
           </LocalizedClientLink>
           .
         </span>
-        <SubmitButton className="w-full mt-6 bg-[#008080] rounded-lg " data-testid="register-button">
+        <SubmitButton className="w-full mt-6 bg-[#008080] rounded-lg hover:bg-[#3c9696]" data-testid="register-button">
           Join
         </SubmitButton>
       </form>

@@ -59,13 +59,16 @@ const Login = ({ setCurrentView }: Props) => {
         .
       </span>
       {/* Forgot Password Link */}
+      <span className="text-center text-ui-fg-base text-small-regular mt-2">Forgot Password?
       <LocalizedClientLink 
         href="/request-reset-password" 
         className="text-ui-fg-base text-small-regular underline mt-4"
         data-testid="forgot-password-link"
       >
-        Forgot Password?
+        Restore
       </LocalizedClientLink>
+      .
+      </span>
     </div>
   )
 }

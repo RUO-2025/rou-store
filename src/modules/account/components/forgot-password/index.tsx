@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Input } from "@medusajs/ui"
 import { Button } from "@medusajs/ui"
+import Input from "@modules/common/components/input"
 // import { Card } from "@medusajs/ui"
 
 export default function RequestResetPassword() {
@@ -42,29 +42,32 @@ export default function RequestResetPassword() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-md p-6 space-y-4 shadow-lg bg-white rounded-lg">
-        <h2 className="text-xl font-semibold text-center">Reset Password</h2>
-        <p className="text-sm text-gray-600 text-center">
-          Enter your email to receive a password reset link.
+    <div className="flex justify-center items-center p-4 mt-20 mb-20">
+      <div className="w-full max-w-md p-6 space-y-4  rounded-lg">
+        <h2 className="text-large-semi mb-6 uppercase text-center">FORGOT PASSWORD?</h2>
+        <p className="text-sm text-black text-center">
+        Provide email
         </p>
 
         {message && <p className="text-sm text-red-500 text-center">{message}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700"></label>
             <Input 
-              placeholder="Enter your email"
+              label="Email"
+              name="email"
               type="email"
+              title="Enter a valid email address."
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
 
-          <Button type="submit" isLoading={loading} className="w-full">
-            {loading ? "Sending..." : "Request Password Reset"}
+          <Button type="submit" isLoading={loading} className="bg-[#008080] rounded-lg hover:bg-[#3c9696] z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent data-[pressed=true]:scale-[0.97] outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-4 min-w-20 h-10 text-small gap-2 rounded-medium [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none data-[hover=true]:opacity-hover mt-6 w-full text-white">
+            {loading ? "Sending..." : "Send Email"}
           </Button>
         </form>
       </div>

@@ -57,7 +57,7 @@ const AccountInfo = ({
         <div>
           <Button
             variant="secondary"
-            className="w-[100px] min-h-[25px] py-1"
+            className="w-[100px] min-h-[25px] py-1 bg-[#008080] hover:bg-[#3c9696] text-white"
             onClick={handleToggle}
             type={state ? "reset" : "button"}
             data-testid="edit-button"
@@ -73,7 +73,7 @@ const AccountInfo = ({
         <Disclosure.Panel
           static
           className={clx(
-            "transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden",
+            "transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden ",
             {
               "max-h-[1000px] opacity-100": isSuccess,
               "max-h-0 opacity-0": !isSuccess,
@@ -122,7 +122,7 @@ const AccountInfo = ({
             <div className="flex items-center justify-end mt-2">
               <Button
                 isLoading={pending}
-                className="w-full small:max-w-[140px]"
+                className="w-full small:max-w-[140px] bg-[#008080] rounded-lg hover:bg-[#3c9696]"
                 type="submit"
                 data-testid="save-button"
               >

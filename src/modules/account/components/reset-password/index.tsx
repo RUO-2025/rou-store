@@ -58,7 +58,7 @@ export default function ResetPassword() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-96">
-        <h2 className="text-xl font-semibold text-center mb-4">Reset Password</h2>
+        <h2 className="text-xl font-semibold text-center mb-4">Forgot Password?</h2>
         <label className="block text-sm font-medium text-gray-700">New Password</label>
         <input
           type="password"

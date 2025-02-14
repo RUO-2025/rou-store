@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 "use client"
 
 import { RadioGroup } from "@headlessui/react"
@@ -24,6 +26,8 @@ const Payment = ({
     (paymentSession: any) => paymentSession.status === "pending"
   )
 
+  // console.log("active session", activeSession)
+
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [cardBrand, setCardBrand] = useState<string | null>(null)
@@ -41,14 +45,24 @@ const Payment = ({
   const isStripe = isStripeFunc(selectedPaymentMethod)
 
   const setPaymentMethod = async (method: string) => {
+    setIsLoading(true)
     setError(null)
     setSelectedPaymentMethod(method)
-    if (isStripeFunc(method)) {
-      await initiatePaymentSession(cart, {
-        provider_id: method,
-      })
-    }
+    // if (isStripeFunc(method)) {
+    //   await initiatePaymentSession(cart, {
+    //     provider_id: method,
+    //   })
+    // }
+
+    await initiatePaymentSession(cart, {
+      provider_id: method,
+    }).catch((err: any) => {
+      setError(err.message)
+    }).finally(() => {
+      setIsLoading(false)
+    })
   }
+
 
   const paidByGiftcard =
     cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
@@ -146,6 +160,9 @@ const Payment = ({
                   <div key={paymentMethod.id}>
                     {isStripeFunc(paymentMethod.id) ? (
                       <StripeCardContainer
+                        paymentMethods={availablePaymentMethods}
+                        loading={isLoading}
+                        cart={cart}
                         paymentProviderId={paymentMethod.id}
                         selectedPaymentOptionId={selectedPaymentMethod}
                         paymentInfoMap={paymentInfoMap}
@@ -155,6 +172,9 @@ const Payment = ({
                       />
                     ) : (
                       <PaymentContainer
+                        paymentMethods={availablePaymentMethods}
+                        loading={isLoading}
+                        cart={cart}
                         paymentInfoMap={paymentInfoMap}
                         paymentProviderId={paymentMethod.id}
                         selectedPaymentOptionId={selectedPaymentMethod}
@@ -185,7 +205,7 @@ const Payment = ({
             data-testid="payment-method-error-message"
           />
 
-          <Button
+          {/* <Button
             size="large"
             className="mt-6"
             onClick={handleSubmit}
@@ -199,7 +219,7 @@ const Payment = ({
             {!activeSession && isStripeFunc(selectedPaymentMethod)
               ? " Enter card details"
               : "Continue to review"}
-          </Button>
+          </Button> */}
         </div>
 
         <div className={isOpen ? "hidden" : "block"}>
@@ -253,7 +273,7 @@ const Payment = ({
           ) : null}
         </div>
       </div>
-      <Divider className="mt-8" />
+      {/* <Divider className="mt-8" /> */}
     </div>
   )
 }

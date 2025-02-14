@@ -1,12 +1,15 @@
+// @ts-nocheck
+
 "use client"
 
-import { isManual, isStripe } from "@lib/constants"
-import { placeOrder } from "@lib/data/cart"
+import { isCrypto, isManual, isStripe, isZelle } from "@lib/constants"
+import { placeOrder, retrieveCart } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
 import React, { useState } from "react"
 import ErrorMessage from "../error-message"
+import { notFound } from "next/navigation"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
@@ -17,6 +20,14 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   cart,
   "data-testid": dataTestId,
 }) => {
+
+  // const cart = await retrieveCart()
+
+  if(!cart) {
+    console.log("Cart not found");
+    return notFound()
+  }
+
   const notReady =
     !cart ||
     !cart.shipping_address ||
@@ -36,6 +47,14 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         />
       )
     case isManual(paymentSession?.provider_id):
+      return (
+        <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
+      )
+    case isZelle(paymentSession?.provider_id):
+      return (
+        <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
+      )
+    case isCrypto(paymentSession?.provider_id):
       return (
         <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
       )
@@ -158,6 +177,7 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
   const onPaymentCompleted = async () => {
     await placeOrder()
       .catch((err) => {
+        console.log("error in placeOrder(")
         setErrorMessage(err.message)
       })
       .finally(() => {

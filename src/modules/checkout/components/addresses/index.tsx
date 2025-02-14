@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import { setAddresses } from "@lib/data/cart"
@@ -33,6 +34,8 @@ const Addresses = ({
       : true
   )
 
+  const { state: termsCheck, toggle: toggleTermsCheck } = useToggleState(false)
+
   const handleEdit = () => {
     router.push(pathname + "?step=address")
   }
@@ -67,6 +70,8 @@ const Addresses = ({
             <ShippingAddress
               customer={customer}
               checked={sameAsBilling}
+              terms={termsCheck}
+              toggleTerms={toggleTermsCheck}
               onChange={toggleSameAsBilling}
               cart={cart}
             />
@@ -83,7 +88,7 @@ const Addresses = ({
                 <BillingAddress cart={cart} />
               </div>
             )}
-            <SubmitButton className="mt-6 bg-[#008080] hover:bg-[#83b4b4]" data-testid="submit-address-button">
+            <SubmitButton className="mt-6" data-testid="submit-address-button">
               Continue to delivery
             </SubmitButton>
             <ErrorMessage error={message} data-testid="address-error-message" />

@@ -18,11 +18,21 @@ export default async function CheckoutForm({
   }
 
   const shippingMethods = await listCartShippingMethods(cart.id)
-  const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
+  // const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
+
+  const paymentMethods = [
+    { id: 'pp_stripe_stripe', is_enabled: true },
+    { id: 'pp_system_default', is_enabled: true },
+    { id: 'pp_zelle_default', is_enabled: true },
+    { id: 'pp_crypto_default', is_enabled: true },
+  ]
 
   if (!shippingMethods || !paymentMethods) {
     return null
   }
+
+  // console.log("shipping methods", shippingMethods)
+  // console.log("payment methods", paymentMethods)
 
   return (
     <div className="w-full grid grid-cols-1 gap-y-8">

@@ -14,6 +14,14 @@ export const paymentInfoMap: Record<
     title: "Credit card",
     icon: <CreditCard />,
   },
+  "pp_zelle_default": {
+    title: "Zelle",
+    icon: <Ideal />,
+  },
+  "pp_crypto_default": {
+    title: "Crypto",
+    icon: <Bancontact />,
+  },
   "pp_stripe-ideal_stripe": {
     title: "iDeal",
     icon: <Ideal />,
@@ -42,6 +50,14 @@ export const isPaypal = (providerId?: string) => {
 }
 export const isManual = (providerId?: string) => {
   return providerId?.startsWith("pp_system_default")
+}
+
+export const isZelle = (providerId?: string) => {
+  return providerId?.startsWith("pp_zelle")
+}
+
+export const isCrypto = (providerId?: string) => {
+  return providerId?.startsWith("pp_crypto")
 }
 
 // Add currencies that don't need to be divided by 100

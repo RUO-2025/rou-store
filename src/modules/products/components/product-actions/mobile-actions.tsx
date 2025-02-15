@@ -72,24 +72,24 @@ const CustomQuantitySelector = ({ value, onChange, disabled }: {
       <button
         ref={buttonRef}
         onClick={() => !disabled && setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between px-4 py-3 bg-gray-100 rounded-xl ${
+        className={`w-full flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 rounded-lg sm:rounded-xl ${
           disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-gray-200'
         }`}
         disabled={disabled}
         data-testid="quantity-dropdown"
       >
-        <span className="text-gray-900 text-sm">{value}</span>
+        <span className="text-gray-900 text-xs sm:text-sm">{value}</span>
         {isOpen ? (
-          <ChevronUp className="w-3 h-3 text-gray-600" />
+          <ChevronUp className="w-2 h-2 sm:w-3 sm:h-3 text-gray-600" />
         ) : (
-          <ChevronDown className="w-3 h-3 text-gray-600" />
+          <ChevronDown className="w-2 h-2 sm:w-3 sm:h-3 text-gray-600" />
         )}
       </button>
 
       {isOpen && (
         <div 
-          className={`fixed z-[1001] w-[inherit] bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden
-            ${dropdownPosition === 'top' ? 'mb-2' : 'mt-2'}`}
+          className={`fixed z-[1001] w-[inherit] bg-white border border-gray-200 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden
+            ${dropdownPosition === 'top' ? 'mb-1 sm:mb-2' : 'mt-1 sm:mt-2'}`}
           style={{
             position: 'fixed',
             width: buttonRef.current?.offsetWidth,
@@ -101,7 +101,7 @@ const CustomQuantitySelector = ({ value, onChange, disabled }: {
         >
           <div 
             ref={listRef}
-            className="max-h-[250px] overflow-y-auto scrollbar-hide"
+            className="max-h-[200px] sm:max-h-[250px] overflow-y-auto scrollbar-hide"
           >
             {getAllOptions().map((num) => (
               <button
@@ -110,12 +110,12 @@ const CustomQuantitySelector = ({ value, onChange, disabled }: {
                   onChange(num)
                   setIsOpen(false)
                 }}
-                className={`w-full px-4 py-2 text-left hover:bg-gray-50 text-sm flex items-center justify-between ${
+                className={`w-full px-3 sm:px-4 py-1.5 sm:py-2 text-left hover:bg-gray-50 text-xs sm:text-sm flex items-center justify-between ${
                   value === num ? 'bg-gray-100' : ''
                 }`}
               >
                 <span>{num}</span>
-                {value === num && <Check className="w-4 h-4 text-gray-600" />}
+                {value === num && <Check className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" />}
               </button>
             ))}
           </div>
@@ -185,21 +185,21 @@ const MobileActions: React.FC<MobileActionsProps> = ({
           leaveTo="translate-y-full"
         >
           <div
-            className="flex items-center justify-between p-4 w-full px-6"
+            className="flex items-center justify-between p-3 sm:p-4 w-full px-4 sm:px-6"
             data-testid="mobile-actions"
           >
-            <div className="flex items-center justify-between w-full gap-4">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-3 sm:gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
                 <img 
                   src={product.thumbnail || "/api/placeholder/48/48"} 
                   alt={product.title}
-                  className="w-12 h-12 object-cover rounded-lg"
+                  className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg"
                 />
                 <div className="flex flex-col">
-                  <span className="text-gray-900 font-medium text-base">{product.title}</span>
-                  <div className="lg:hidden">
+                  <span className="text-gray-900 font-medium text-sm sm:text-base">{product.title}</span>
+                  <div className="block sm:hidden">
                     {selectedPrice && (
-                      <div className="text-gray-600">
+                      <div className="text-gray-600 text-xs sm:text-sm">
                         {selectedPrice.price_type === "sale" && (
                           <span className="line-through mr-2">
                             {selectedPrice.original_price}
@@ -214,16 +214,16 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-6">
-                <div className="hidden lg:block">
+              <div className="flex items-center gap-3 sm:gap-6 w-full sm:w-auto">
+                <div className="hidden sm:block">
                   {selectedPrice && (
-                    <div className="text-gray-900 font-bold text-base">
+                    <div className="text-gray-900 font-bold text-sm sm:text-base whitespace-nowrap">
                       {selectedPrice.calculated_price}
                     </div>
                   )}
                 </div>
                 
-                <div className="w-24">
+                <div className="w-12 sm:w-16">
                   <CustomQuantitySelector
                     value={quantity}
                     onChange={setQuantity}
@@ -233,7 +233,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 <Button
                   onClick={() => handleAddToCart(quantity)}
                   disabled={!inStock || !variant}
-                  className="bg-[#008080] hover:bg-teal-600 text-white py-3 px-8 rounded-lg flex items-center gap-2 justify-center"
+                  className="flex-1 sm:flex-none bg-[#008080] hover:bg-teal-600 text-white py-2 sm:py-3 px-4 sm:px-8 rounded-lg flex items-center gap-2 justify-center text-sm sm:text-base"
                   isLoading={isAdding}
                   data-testid="mobile-cart-button"
                 >
@@ -244,7 +244,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                     strokeWidth="1.5"
                     stroke="currentColor"
                     aria-hidden="true"
-                    className="h-6 w-6"
+                    className="h-5 w-5 sm:h-6 sm:w-6"
                   >
                     <path
                       strokeLinecap="round"
@@ -254,7 +254,6 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   </svg>
                   <span>Add</span>
                 </Button>
-
               </div>
             </div>
           </div>
@@ -297,21 +296,21 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 leaveTo="opacity-0"
               >
                 <Dialog.Panel
-                  className="w-full h-full transform overflow-hidden text-left flex flex-col gap-y-3"
+                  className="w-full h-full transform overflow-hidden text-left flex flex-col gap-y-2 sm:gap-y-3"
                   data-testid="mobile-actions-modal"
                 >
-                  <div className="w-full flex justify-end pr-6">
+                  <div className="w-full flex justify-end pr-4 sm:pr-6">
                     <button
                       onClick={close}
-                      className="bg-white w-12 h-12 rounded-full text-ui-fg-base flex justify-center items-center"
+                      className="bg-white w-10 h-10 sm:w-12 sm:h-12 rounded-full text-ui-fg-base flex justify-center items-center"
                       data-testid="close-modal-button"
                     >
                       <X />
                     </button>
                   </div>
-                  <div className="bg-white px-6 py-12">
+                  <div className="bg-white px-4 sm:px-6 py-8 sm:py-12">
                     {(product.variants?.length ?? 0) > 1 && (
-                      <div className="flex flex-col gap-y-6">
+                      <div className="flex flex-col gap-y-4 sm:gap-y-6">
                         {(product.options || []).map((option) => {
                           return (
                             <div key={option.id}>

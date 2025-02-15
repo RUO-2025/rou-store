@@ -311,13 +311,13 @@ const CartDropdown = ({
                       {isSingleProductType && (
                         <ul className="list-inside list-disc rounded-lg bg-[#F5F6F8] p-2 lg:p-4 mx-[12px] sm:mx-[24px]">
                           <li className={`text-[#52525B] lg:text-base text-xs ${item.quantity >= 3 ? 'line-through' : ''}`}>
-                            Buy <span className="font-bold">3+</span> for <span className="font-bold">$51.29</span> each and <span className="font-bold">save 5%</span>
+                            Buy <span className="font-bold"> 3 +</span>and get<span className="font-bold"> 5% </span>OFF!
                           </li>
                           <li className={`text-[#52525B] lg:text-base text-xs ${item.quantity >= 5 ? 'line-through' : ''}`}>
-                            Buy <span className="font-bold">5+</span> for <span className="font-bold">$49.67</span> each and <span className="font-bold">save 8%</span>
+                            Buy <span className="font-bold"> 5+ </span>and get<span className="font-bold"> 8% </span>OFF!
                           </li>
                           <li className={`text-[#52525B] lg:text-base text-xs ${item.quantity >= 10 ? 'line-through' : ''}`}>
-                            Buy <span className="font-bold">10+</span> for <span className="font-bold">$48.59</span> each and <span className="font-bold">save 10%</span>
+                            Buy <span className="font-bold"> 10+ </span>and get<span className="font-bold"> 10% </span>OFF!
                           </li>
                         </ul>
                       )}

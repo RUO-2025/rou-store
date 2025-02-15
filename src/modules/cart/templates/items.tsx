@@ -17,8 +17,8 @@ const ItemsTemplate = ({ cart }: ItemsTemplateProps) => {
         <Heading className="text-[2rem] leading-[2.75rem]">Cart</Heading>
       </div>
       <Table>
-        <Table.Header className="border-t-0">
-          <Table.Row className="text-ui-fg-subtle txt-medium-plus bg-ui-bg-base hover:bg-ui-bg-base-hover border-ui-border-base transition-fg border-b">
+        <Table.Header className="!bg-transparent !border-t-0 !hover:bg-transparent !p-0">
+        <Table.Row className="!bg-transparent !border-none !hover:bg-transparent !p-0">
             <Table.HeaderCell className="!pl-0">Item</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
             <Table.HeaderCell>Quantity</Table.HeaderCell>

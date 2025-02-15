@@ -74,7 +74,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
             <>
               <div className="flex w-full gap-x-2">
                 <Input
-                  label="Please enter code"
+                  placeholder="Please enter code"
                   className="size-full"
                   id="promotion-input"
                   name="code"
@@ -84,6 +84,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 />
                 <SubmitButton
                   variant="secondary"
+                  className="bg-gray-300 rounded-xl font-semibold"
                   data-testid="discount-apply-button"
                 >
                   Apply

@@ -5,6 +5,7 @@ import SignInPrompt from "../components/sign-in-prompt"
 import Divider from "@modules/common/components/divider"
 import CartProgressBars from "../components/cart-progress-bar"
 import { HttpTypes } from "@medusajs/types"
+import ProductSlider from "../components/product-slider"
 
 const CartTemplate = ({
   cart,
@@ -31,6 +32,25 @@ const CartTemplate = ({
                 <CartProgressBars currentAmount={currentAmount} />
               </div>
               <ItemsTemplate cart={cart} />
+              <div className="w-full">
+                <ul className="list-inside list-disc bg-[#F5F6F8] p-6 lg:p-8">
+                          <li className={`text-[#52525B] lg:text-base text-xs`}>
+                            Buy <span className="font-bold"> 3 +</span>and get<span className="font-bold"> 5% </span>OFF!
+                          </li>
+                          <li className={`text-[#52525B] lg:text-base text-xs`}>
+                            Buy <span className="font-bold"> 5+ </span>and get<span className="font-bold"> 8% </span>OFF!
+                          </li>
+                          <li className={`text-[#52525B] lg:text-base text-xs`}>
+                            Buy <span className="font-bold"> 10+ </span>and get<span className="font-bold"> 10% </span>OFF!
+                          </li>
+                        </ul>
+                </div>
+                <div className="relative">
+                <div className="flex flex-col gap-y-2 sticky top-12">
+                  <Divider/>
+                  <ProductSlider />
+                </div>
+              </div>
               <div className="flex items-center rounded-lg bg-[#EFF6FF] p-6">
               <div className="flex items-center gap-4">
                 <img

@@ -246,8 +246,8 @@ const CartDropdown = ({
                           </div>
                           <div className="relative flex flex-grow">
                             <div className="flex flex-grow flex-col">
-                              <p className="text-base-regular overflow-hidden text-ellipsis bg-[#008080] text-sm sm:text-base">
-                                {item.variant.product.title}
+                              <p className="text-base-regular overflow-hidden text-ellipsis text-[#008080] text-sm sm:text-base">
+                                {item.product.title}
                               </p>
                               <div className="text-[#5A5A62]">
                                 <p className="txt-medium relative top-0 inline-block w-full overflow-hidden text-ellipsis font-sans text-sm font-normal text-ui-fg-subtle sm:text-base">

@@ -154,28 +154,23 @@ export default function ProductActions({
 
   useEffect(() => {
     if (product.variants?.length === 1) {
-      // Single variant case
       const variantOptions = optionsAsKeymap(product.variants[0].options)
       setOptions(variantOptions ?? {})
     } else if (product.options) {
       const optionsMap: Record<string, string> = {}
 
-      // Handle each option type
       product.options.forEach(option => {
         if (!option.values?.length) return
 
         if (option.title.toLowerCase() === 'size') {
-          // Special handling for size options
           const sizes = option.values
           let defaultSize: string | undefined
 
-          // Try to find medium size first
           defaultSize = sizes.find(size => 
             size.value.toLowerCase() === 'm' || 
             size.value.toLowerCase() === 'medium'
           )?.value
 
-          // If no medium, try common sizes in order
           if (!defaultSize) {
             const commonSizes = ['l', 'large', 's', 'small']
             for (const size of commonSizes) {
@@ -187,14 +182,12 @@ export default function ProductActions({
             }
           }
 
-          // If still no size found, use middle size or first available
           if (!defaultSize) {
             defaultSize = sizes[Math.floor(sizes.length / 2)]?.value || sizes[0].value
           }
 
           optionsMap[option.id] = defaultSize
         } else {
-          // For non-size options, use first available value
           optionsMap[option.id] = option.values[0].value
         }
       })
@@ -239,13 +232,13 @@ export default function ProductActions({
   const actionsRef = useRef<HTMLDivElement>(null)
   const inView = useIntersection(actionsRef, "0px")
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (qty: number = quantity) => {
     if (!selectedVariant?.id) return null
     setIsAdding(true)
 
     await addToCart({
       variantId: selectedVariant.id,
-      quantity,
+      quantity: qty,
       countryCode,
     })
 
@@ -286,7 +279,7 @@ export default function ProductActions({
         </div>
 
         <Button
-          onClick={handleAddToCart}
+          onClick={() => handleAddToCart(quantity)}
           disabled={!!disabled || isAdding || !isValidVariant || !inStock}
           className="w-screen h-10 flex-1 bg-[#008080] text-white px-6 py-2 rounded-xl hover:bg-teal-600 font-medium flex items-center justify-center gap-2 max-w-[theme(spacing.130)]"
           isLoading={isAdding}
@@ -311,7 +304,7 @@ export default function ProductActions({
         </Button>
       </div>
 
-      {/* <MobileActions
+      <MobileActions
         product={product}
         variant={selectedVariant}
         options={options}
@@ -321,7 +314,7 @@ export default function ProductActions({
         isAdding={isAdding}
         show={!inView}
         optionsDisabled={!!disabled || isAdding}
-      /> */}
+      />
     </div>
   )
 }

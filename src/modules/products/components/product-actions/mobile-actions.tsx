@@ -1,14 +1,126 @@
 import { Dialog, Transition } from "@headlessui/react"
 import { Button, clx } from "@medusajs/ui"
-import React, { Fragment, useMemo } from "react"
-
-import useToggleState from "@lib/hooks/use-toggle-state"
-import ChevronDown from "@modules/common/icons/chevron-down"
+import React, { Fragment, useMemo, useState, useRef, useEffect } from "react"
+import { ChevronDown, ChevronUp, Check } from "lucide-react"
 import X from "@modules/common/icons/x"
-
 import { getProductPrice } from "@lib/util/get-product-price"
 import OptionSelect from "./option-select"
 import { HttpTypes } from "@medusajs/types"
+
+const useToggleState = (initialState = false) => {
+  const [state, setState] = useState(initialState)
+  const open = () => setState(true)
+  const close = () => setState(false)
+  const toggle = () => setState(!state)
+  return { state, open, close, toggle }
+}
+
+const CustomQuantitySelector = ({ value, onChange, disabled }: { 
+  value: number, 
+  onChange: (val: number) => void, 
+  disabled?: boolean 
+}) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [dropdownPosition, setDropdownPosition] = useState<'top' | 'bottom'>('bottom')
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const listRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  useEffect(() => {
+    if (!isOpen || !buttonRef.current) return
+
+    const buttonRect = buttonRef.current.getBoundingClientRect()
+    const windowHeight = window.innerHeight
+    const spaceBelow = windowHeight - buttonRect.bottom
+    const spaceAbove = buttonRect.top
+    const dropdownHeight = 250
+
+    const position = spaceBelow < dropdownHeight && spaceAbove > spaceBelow ? 'top' : 'bottom'
+    setDropdownPosition(position)
+
+    if (listRef.current) {
+      const optionHeight = 36
+      const scrollPosition = Math.max(0, (value - 3) * optionHeight)
+      requestAnimationFrame(() => {
+        if (listRef.current) {
+          listRef.current.scrollTop = scrollPosition
+        }
+      })
+    }
+  }, [isOpen, value])
+
+  const getAllOptions = () => {
+    return Array.from({ length: 100 }, (_, i) => i + 1)
+  }
+
+  return (
+    <div className="relative w-full" ref={dropdownRef}>
+      <button
+        ref={buttonRef}
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        className={`w-full flex items-center justify-between px-4 py-3 bg-gray-100 rounded-xl ${
+          disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-gray-200'
+        }`}
+        disabled={disabled}
+        data-testid="quantity-dropdown"
+      >
+        <span className="text-gray-900 text-sm">{value}</span>
+        {isOpen ? (
+          <ChevronUp className="w-3 h-3 text-gray-600" />
+        ) : (
+          <ChevronDown className="w-3 h-3 text-gray-600" />
+        )}
+      </button>
+
+      {isOpen && (
+        <div 
+          className={`fixed z-[1001] w-[inherit] bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden
+            ${dropdownPosition === 'top' ? 'mb-2' : 'mt-2'}`}
+          style={{
+            position: 'fixed',
+            width: buttonRef.current?.offsetWidth,
+            ...(dropdownPosition === 'top' 
+              ? { bottom: window.innerHeight - (buttonRef.current?.getBoundingClientRect().top || 0) } 
+              : { top: buttonRef.current?.getBoundingClientRect().bottom || 0 }),
+            left: buttonRef.current?.getBoundingClientRect().left
+          }}
+        >
+          <div 
+            ref={listRef}
+            className="max-h-[250px] overflow-y-auto scrollbar-hide"
+          >
+            {getAllOptions().map((num) => (
+              <button
+                key={num}
+                onClick={() => {
+                  onChange(num)
+                  setIsOpen(false)
+                }}
+                className={`w-full px-4 py-2 text-left hover:bg-gray-50 text-sm flex items-center justify-between ${
+                  value === num ? 'bg-gray-100' : ''
+                }`}
+              >
+                <span>{num}</span>
+                {value === num && <Check className="w-4 h-4 text-gray-600" />}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 type MobileActionsProps = {
   product: HttpTypes.StoreProduct
@@ -16,7 +128,7 @@ type MobileActionsProps = {
   options: Record<string, string | undefined>
   updateOptions: (title: string, value: string) => void
   inStock?: boolean
-  handleAddToCart: () => void
+  handleAddToCart: (quantity: number) => void
   isAdding?: boolean
   show: boolean
   optionsDisabled: boolean
@@ -33,6 +145,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   show,
   optionsDisabled,
 }) => {
+  const [quantity, setQuantity] = useState(1)
   const { state, open, close } = useToggleState()
 
   const price = getProductPrice({
@@ -45,91 +158,101 @@ const MobileActions: React.FC<MobileActionsProps> = ({
       return null
     }
     const { variantPrice, cheapestPrice } = price
-
     return variantPrice || cheapestPrice || null
   }, [price])
 
   return (
     <>
       <div
-        className={clx("lg:hidden inset-x-0 bottom-0 fixed", {
-          "pointer-events-none": !show,
+        className={clx("w-full bg-white border-t border-gray-200 transition-all duration-200", {
+          "fixed inset-x-0 bottom-0 z-[999] shadow-lg": true,
+          "pointer-events-none transform translate-y-full": !show,
+          "transform translate-y-0": show
         })}
       >
         <Transition
           as={Fragment}
           show={show}
-          enter="ease-in-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-300"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+          enter="transform transition ease-out duration-200"
+          enterFrom="translate-y-full"
+          enterTo="translate-y-0"
+          leave="transform transition ease-in duration-200"
+          leaveFrom="translate-y-0"
+          leaveTo="translate-y-full"
         >
           <div
-            className="bg-white flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200"
+            className="flex items-center justify-between p-4 w-full px-6"
             data-testid="mobile-actions"
           >
-            <div className="flex items-center gap-x-2">
-              <span data-testid="mobile-title">{product.title}</span>
-              <span>—</span>
-              {selectedPrice ? (
-                <div className="flex items-end gap-x-2 text-ui-fg-base">
-                  {selectedPrice.price_type === "sale" && (
-                    <p>
-                      <span className="line-through text-small-regular">
-                        {selectedPrice.original_price}
-                      </span>
-                    </p>
+            <div className="flex items-center justify-between w-full gap-4">
+              <div className="flex items-center gap-4">
+                <img 
+                  src={product.thumbnail || "/api/placeholder/48/48"} 
+                  alt={product.title}
+                  className="w-12 h-12 object-cover rounded-lg"
+                />
+                <div className="flex flex-col">
+                  <span className="text-gray-900 font-medium text-base">{product.title}</span>
+                  <div className="lg:hidden">
+                    {selectedPrice && (
+                      <div className="text-gray-600">
+                        {selectedPrice.price_type === "sale" && (
+                          <span className="line-through mr-2">
+                            {selectedPrice.original_price}
+                          </span>
+                        )}
+                        <span className={selectedPrice.price_type === "sale" ? "text-ui-fg-interactive" : ""}>
+                          {selectedPrice.calculated_price}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-6">
+                <div className="hidden lg:block">
+                  {selectedPrice && (
+                    <div className="text-gray-900 font-bold text-base">
+                      {selectedPrice.calculated_price}
+                    </div>
                   )}
-                  <span
-                    className={clx({
-                      "text-ui-fg-interactive":
-                        selectedPrice.price_type === "sale",
-                    })}
-                  >
-                    {selectedPrice.calculated_price}
-                  </span>
                 </div>
-              ) : (
-                <div></div>
-              )}
-            </div>
-            <div className="grid grid-cols-2 w-full gap-x-4">
-              <Button
-                onClick={open}
-                variant="secondary"
-                className="w-full"
-                data-testid="mobile-actions-button"
-              >
-                <div className="flex items-center justify-between w-full">
-                  <span>
-                    {variant
-                      ? Object.values(options).join(" / ")
-                      : "Select Options"}
-                  </span>
-                  <ChevronDown />
+                
+                <div className="w-24">
+                  <CustomQuantitySelector
+                    value={quantity}
+                    onChange={setQuantity}
+                    disabled={isAdding || !inStock || !!optionsDisabled}
+                  />
                 </div>
-              </Button>
-              <Button
-                onClick={handleAddToCart}
-                disabled={!inStock || !variant}
-                className="w-full"
-                isLoading={isAdding}
-                data-testid="mobile-cart-button"
-              >
-                {!variant
-                  ? "Select variant"
-                  : !inStock
-                  ? "Out of stock"
-                  : "Add to cart"}
-              </Button>
+                <Button
+                  onClick={() => handleAddToCart(quantity)}
+                  disabled={!inStock || !variant}
+                  className="bg-teal-600 hover:bg-teal-700 text-white py-3 px-8 rounded-lg flex items-center gap-2"
+                  isLoading={isAdding}
+                  data-testid="mobile-cart-button"
+                >
+                  <span>Add</span>
+                </Button>
+              </div>
             </div>
           </div>
         </Transition>
       </div>
+
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+
       <Transition appear show={state} as={Fragment}>
-        <Dialog as="div" className="relative z-[75]" onClose={close}>
+        <Dialog as="div" className="relative z-[1000]" onClose={close}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

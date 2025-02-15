@@ -1,4 +1,4 @@
-export const dynamic = "force-static" // Ensures SSG (prevents SSR)
+export const dynamic = "force-dynamic" // Ensures SSG (prevents SSR)
 
 import { Metadata } from "next"
 import { notFound } from "next/navigation"

@@ -10,13 +10,15 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import Thumbnail from "@modules/products/components/thumbnail";
 import { updateLineItem } from "@lib/data/cart";
 import ProductStripPreview from "@modules/products/components/product-strip-preview";
+import { useCart } from 'context/cartContext';
 
 const CartDropdown = ({
   cart: cartState,
 }: {
   cart?: Omit<Cart, "beforeInsert" | "afterLoad"> | null
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
+  const { isCartOpen, setIsCartOpen } = useCart();
   const [showTotalDetails, setShowTotalDetails] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const pathname = usePathname();
@@ -28,7 +30,7 @@ const CartDropdown = ({
 
   // Disable body scrolling when the cart dropdown is open
   useEffect(() => {
-    if (isOpen) {
+    if (isCartOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
@@ -36,7 +38,7 @@ const CartDropdown = ({
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [isOpen]);
+  }, [isCartOpen]);
    
    // Return null until the component has mounted on the client
    if (!hasMounted) return null;
@@ -53,7 +55,7 @@ const CartDropdown = ({
   return (
     <>
       <button 
-        onClick={() => setIsOpen(!isOpen)} 
+        onClick={() => setIsCartOpen(!isCartOpen)} 
         className="relative flex items-center gap-2"
       >
         {/* Cart Icon with Badge */}
@@ -94,12 +96,12 @@ const CartDropdown = ({
       </button>
 
       <div className={`fixed inset-0 bg-black transition-opacity duration-300 ${
-        isOpen ? 'opacity-50 visible z-[999]' : 'opacity-0 invisible'
-      }`} onClick={() => setIsOpen(false)} />
+        isCartOpen ? 'opacity-50 visible z-[999]' : 'opacity-0 invisible'
+      }`} onClick={() => setIsCartOpen(false)} />
 
       {/* Updated panel container for responsiveness: full width on mobile, original width on larger screens */}
       <div className={`fixed top-0 right-0 h-full w-full sm:w-[36vw] sm:min-w-[480px] max-w-[600px] bg-white shadow-xl transform transition-transform duration-300 ease-in-out z-[9999] ${
-        isOpen ? 'translate-x-0' : 'translate-x-full'
+        isCartOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between border-b px-[12px] py-[12px] sm:px-[24px]">
@@ -109,7 +111,7 @@ const CartDropdown = ({
                 ({totalItems} item{totalItems !== 1 ? 's' : ''})
               </span>}
             </p>
-            <button onClick={() => setIsOpen(false)}>
+            <button onClick={() => setIsCartOpen(false)}>
               <X className="w-5 h-5" />
             </button>
           </div>

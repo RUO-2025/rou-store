@@ -35,22 +35,22 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
     <>
       {/* Breadcrumb / Collection Link */}
       <div className="hidden md:block mt-4 ml-12">
-  <LocalizedClientLink
-    href="/"
-    className="text-gray-500 hover:text-gray-700"
-  >
-    Home
-  </LocalizedClientLink>
-  <span className="text-gray-500 mx-2">&gt;</span>
-  <LocalizedClientLink
-    href="/store"
-    className="text-gray-500 hover:text-gray-700"
-  >
-    Products
-  </LocalizedClientLink>
-  <span className="text-gray-500 mx-2">&gt;</span>
-  {product.title}
-</div>
+        <LocalizedClientLink
+          href="/"
+          className="text-gray-500 hover:text-gray-700"
+        >
+          Home
+        </LocalizedClientLink>
+        <span className="text-gray-500 mx-2">&gt;</span>
+        <LocalizedClientLink
+          href="/store"
+          className="text-gray-500 hover:text-gray-700"
+        >
+          Products
+        </LocalizedClientLink>
+        <span className="text-gray-500 mx-2">&gt;</span>
+        {product.title}
+      </div>
 
       {/* Product Content */}
       <div className="content-container py-6 relative overflow-hidden">
@@ -63,16 +63,16 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
                 product={product}
                 className="w-full max-w-[900px] mx-auto object-contain"
               />
-              
+
               {/* Molecular Info */}
               <div className="hidden md:flex my-6 flex-col rounded-3xl bg-[#0033660A] px-6 py-5">
-  <div className="gap-x-3 gap-y-3">
-    <span className="relative top-[5px] mr-2 inline-block h-6 w-6 min-w-[1.5rem] max-w-[1.5rem]">ⓘ</span>
-    <p className="text-sm text-gray-600 mt-2">
-      Product Usage: This product is intended solely for use as a research chemical in vitro and laboratory experimentation by licensed, qualified professionals. It is not approved for human or animal consumption. Misuse, misbranding, or mislabeling as a drug, food, or cosmetic is strictly prohibited. All information provided is for educational purposes only.
-    </p>
-  </div>
-</div>
+                <div className="gap-x-3 gap-y-3">
+                  <span className="relative top-[5px] mr-2 inline-block h-6 w-6 min-w-[1.5rem] max-w-[1.5rem]">ⓘ</span>
+                  <p className="text-sm text-gray-600 mt-2">
+                    Product Usage: This product is intended solely for use as a research chemical in vitro and laboratory experimentation by licensed, qualified professionals. It is not approved for human or animal consumption. Misuse, misbranding, or mislabeling as a drug, food, or cosmetic is strictly prohibited. All information provided is for educational purposes only.
+                  </p>
+                </div>
+              </div>
 
             </div>
           </div>
@@ -80,9 +80,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product, region, coun
           {/* Right Column - Product Info & Description */}
           <div className="flex flex-col gap-4">
             <ProductInfo product={product} />
-            <ProductDescription product={product}/>
+            <ProductDescription product={product} />
             <div className="max-w-[450px] relative">
-                <ProductActionsWrapper id={product.id} region={region} />
+              <ProductActionsWrapper id={product.id} region={region} />
             </div>
 
             {/* Shipping Information */}

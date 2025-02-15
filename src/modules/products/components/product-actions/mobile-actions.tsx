@@ -6,6 +6,7 @@ import X from "@modules/common/icons/x"
 import { getProductPrice } from "@lib/util/get-product-price"
 import OptionSelect from "./option-select"
 import { HttpTypes } from "@medusajs/types"
+import { useCart } from "context/cartContext"
 
 const useToggleState = (initialState = false) => {
   const [state, setState] = useState(initialState)
@@ -25,6 +26,8 @@ const CustomQuantitySelector = ({ value, onChange, disabled }: {
   const dropdownRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
+
+  const { isCartOpen } = useCart();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -65,7 +68,7 @@ const CustomQuantitySelector = ({ value, onChange, disabled }: {
   }
 
   return (
-    <div className="relative w-full" ref={dropdownRef}>
+    <div className={`relative w-full ${isCartOpen && 'hidden'}`} ref={dropdownRef}>
       <button
         ref={buttonRef}
         onClick={() => !disabled && setIsOpen(!isOpen)}
@@ -145,6 +148,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   show,
   optionsDisabled,
 }) => {
+  const { isCartOpen } = useCart();
   const [quantity, setQuantity] = useState(1)
   const { state, open, close } = useToggleState()
 
@@ -164,7 +168,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   return (
     <>
       <div
-        className={clx("w-full bg-white border-t border-gray-200 transition-all duration-200", {
+        className={clx(`w-full bg-white border-t border-gray-200 transition-all duration-200 ${isCartOpen && 'hidden'}`, {
           "fixed inset-x-0 bottom-0 z-[999] shadow-lg": true,
           "pointer-events-none transform translate-y-full": !show,
           "transform translate-y-0": show

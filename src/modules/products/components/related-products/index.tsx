@@ -48,9 +48,9 @@ export default async function RelatedProducts({
     <div className="content-container flex flex-col px-3 py-10 md:py-10">
       {/* Header section */}
       <div className="mb-5 flex flex-wrap items-center gap-x-6">
-        <Text className="text-[2rem] font-medium leading-[2.25rem] flex-shrink-0">
-          More from Power Peptides
-        </Text>
+      <Text className="text-lg sm:text-xl md:text-2xl lg:text-[2rem] font-medium leading-tight lg:leading-[2.25rem] flex-shrink-0 truncate">
+        More from Power Peptides
+      </Text>
         <div className="hidden md:flex">
           <InteractiveLink href={`/collections/${product.collection?.handle}`}>
             View all

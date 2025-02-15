@@ -63,7 +63,7 @@ const Hits = ({
                 className="list-none bg-white rounded-xl overflow-hidden shadow-sm"
               >
                 <div className="p-4 sm:p-6">
-                  <ProductCard hit={hit as unknown as ProductHit} />
+                  <Hit hit={hit as unknown as ProductHit} />
                 </div>
               </li>
             ))}

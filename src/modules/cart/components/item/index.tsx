@@ -14,26 +14,51 @@ import Spinner from "@modules/common/icons/spinner"
 import Thumbnail from "@modules/products/components/thumbnail"
 import { ChevronUp, ChevronDown, Check } from "lucide-react"
 
-const CustomQuantitySelector = ({ value, onChange, disabled }) => {
+type CustomQuantitySelectorProps = {
+  value: number
+  onChange: (quantity: number) => void
+  disabled: boolean
+}
+
+const CustomQuantitySelector = ({ value, onChange, disabled }: CustomQuantitySelectorProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState('bottom')
-  const dropdownRef = useRef(null)
-  const buttonRef = useRef(null)
-  const listRef = useRef(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const listRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false)
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+    const handleScroll = () => {
+      if (isOpen) {
+        setIsOpen(false)
+      }
+    }
 
-  useEffect(() => {
-    if (!isOpen || !buttonRef.current) return
+    const handleResize = () => {
+      if (isOpen) {
+        updateDropdownPosition()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    window.addEventListener('scroll', handleScroll, true)
+    window.addEventListener('resize', handleResize)
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      window.removeEventListener('scroll', handleScroll, true)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [isOpen])
+
+  const updateDropdownPosition = () => {
+    if (!buttonRef.current) return
 
     const buttonRect = buttonRef.current.getBoundingClientRect()
     const windowHeight = window.innerHeight
@@ -41,18 +66,19 @@ const CustomQuantitySelector = ({ value, onChange, disabled }) => {
     const spaceAbove = buttonRect.top
     const dropdownHeight = 250
 
-    const position = spaceBelow < dropdownHeight && spaceAbove > spaceBelow ? 'top' : 'bottom'
-    setDropdownPosition(position)
+    const newPosition = spaceBelow < dropdownHeight && spaceAbove > spaceBelow ? 'top' : 'bottom'
+    setDropdownPosition(newPosition)
 
     if (listRef.current) {
       const optionHeight = 36
       const scrollPosition = Math.max(0, (value - 3) * optionHeight)
-      requestAnimationFrame(() => {
-        if (listRef.current) {
-          listRef.current.scrollTop = scrollPosition
-        }
-      })
+      listRef.current.scrollTop = scrollPosition
     }
+  }
+
+  useEffect(() => {
+    if (!isOpen || !buttonRef.current) return
+    updateDropdownPosition()
   }, [isOpen, value])
 
   const getAllOptions = () => {
@@ -64,36 +90,53 @@ const CustomQuantitySelector = ({ value, onChange, disabled }) => {
       <button
         ref={buttonRef}
         onClick={() => !disabled && setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between px-4 py-3 bg-gray-100 rounded-xl ${
-          disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-gray-200'
-        }`}
+        className={clx(
+          "w-full flex items-center justify-between px-2 sm:px-4 py-2 sm:py-3",
+          "bg-gray-100 rounded-lg sm:rounded-xl text-left",
+          "transition-colors duration-200",
+          {
+            'opacity-50 cursor-not-allowed': disabled,
+            'cursor-pointer hover:bg-gray-200 active:bg-gray-300': !disabled
+          }
+        )}
         disabled={disabled}
         data-testid="quantity-dropdown"
       >
-        <span className="text-gray-900 text-sm">{value}</span>
+        <span className="text-gray-900 text-xs sm:text-sm font-medium">{value}</span>
         {isOpen ? (
-          <ChevronUp className="w-3 h-3 text-gray-600" />
+          <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 ml-1" />
         ) : (
-          <ChevronDown className="w-3 h-3 text-gray-600" />
+          <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 ml-1" />
         )}
       </button>
 
       {isOpen && (
         <div 
-          className={`fixed z-50 w-[inherit] bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden
-            ${dropdownPosition === 'top' ? 'mb-2' : 'mt-2'}`}
+          className={clx(
+            "fixed z-50 bg-white border border-gray-200",
+            "rounded-xl sm:rounded-2xl shadow-lg overflow-hidden",
+            "transition-all duration-200 ease-in-out",
+            {
+              'mb-1 sm:mb-2': dropdownPosition === 'top',
+              'mt-1 sm:mt-2': dropdownPosition === 'bottom'
+            }
+          )}
           style={{
             position: 'fixed',
             width: buttonRef.current?.offsetWidth,
+            maxWidth: '90vw',
             ...(dropdownPosition === 'top' 
               ? { bottom: window.innerHeight - (buttonRef.current?.getBoundingClientRect().top || 0) } 
               : { top: buttonRef.current?.getBoundingClientRect().bottom || 0 }),
-            left: buttonRef.current?.getBoundingClientRect().left
+            left: Math.min(
+              buttonRef.current?.getBoundingClientRect().left || 0,
+              window.innerWidth - (buttonRef.current?.offsetWidth || 0) - 16
+            )
           }}
         >
           <div 
             ref={listRef}
-            className="max-h-[250px] overflow-y-auto scrollbar-hide"
+            className="max-h-[200px] sm:max-h-[250px] overflow-y-auto scrollbar-hide"
           >
             {getAllOptions().map((num) => (
               <button
@@ -102,24 +145,21 @@ const CustomQuantitySelector = ({ value, onChange, disabled }) => {
                   onChange(num)
                   setIsOpen(false)
                 }}
-                className={`w-full px-4 py-2 text-left hover:bg-gray-50 text-sm flex items-center justify-between ${
-                  value === num ? 'bg-gray-100' : ''
-                }`}
+                className={clx(
+                  "w-full px-3 sm:px-4 py-2 text-left text-xs sm:text-sm",
+                  "hover:bg-gray-50 active:bg-gray-100",
+                  "transition-colors duration-150",
+                  "flex items-center justify-between",
+                  {
+                    'bg-gray-100': value === num
+                  }
+                )}
               >
                 <span>{num}</span>
-                {value === num && <Check className="w-4 h-4 text-gray-600" />}
+                {value === num && <Check className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" />}
               </button>
             ))}
           </div>
-          <style jsx global>{`
-            .scrollbar-hide::-webkit-scrollbar {
-              display: none;
-            }
-            .scrollbar-hide {
-              -ms-overflow-style: none;
-              scrollbar-width: none;
-            }
-          `}</style>
         </div>
       )}
     </div>
@@ -157,13 +197,16 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
   const inStock = maxQuantity > 0
 
   return (
-    <Table.Row className="!bg-transparent !border-none !hover:bg-transparent !p-0" data-testid="product-row">
-      <Table.Cell className="!pl-0 p-4 w-24">
+    <Table.Row 
+      className="!bg-transparent !border-none !hover:bg-transparent !p-0" 
+      data-testid="product-row"
+    >
+      <Table.Cell className="!pl-0 p-2 sm:p-4 w-16 sm:w-24">
         <LocalizedClientLink
           href={`/products/${item.product_handle}`}
           className={clx("flex", {
-            "w-16": type === "preview",
-            "small:w-24 w-12": type === "full",
+            "w-12 sm:w-16": type === "preview",
+            "w-12 sm:w-24": type === "full",
           })}
         >
           <Thumbnail
@@ -176,7 +219,7 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
 
       <Table.Cell className="text-left">
         <Text
-          className="txt-medium-plus text-ui-fg-base font-semibold"
+          className="txt-medium-plus text-ui-fg-base text-sm sm:text-base font-semibold line-clamp-2"
           data-testid="product-title"
         >
           {item.product_title}
@@ -186,9 +229,9 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
 
       {type === "full" && (
         <Table.Cell>
-          <div className="flex gap-2 items-center">
+          <div className="flex flex-col sm:flex-row gap-1 sm:gap-2 items-start sm:items-center">
             <DeleteButton id={item.id} data-testid="product-delete-button" />
-            <div className="w-20">
+            <div className="w-16 sm:w-20">
               <CustomQuantitySelector
                 value={item.quantity}
                 onChange={changeQuantity}
@@ -213,12 +256,12 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
 
       <Table.Cell className="!pr-0">
         <span
-          className={clx("!pr-0", {
+          className={clx("!pr-0 text-sm sm:text-base", {
             "flex flex-col items-end h-full justify-center": type === "preview",
           })}
         >
           {type === "preview" && (
-            <span className="flex gap-x-1 ">
+            <span className="flex gap-x-1">
               <Text className="text-ui-fg-muted">{item.quantity}x </Text>
               <LineItemUnitPrice
                 item={item}

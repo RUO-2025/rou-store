@@ -12,6 +12,7 @@ import { updateLineItem } from "@lib/data/cart";
 import ProductStripPreview from "@modules/products/components/product-strip-preview";
 import { useCart } from 'context/cartContext';
 
+
 const CartDropdown = ({
   cart: cartState,
 }: {
@@ -22,6 +23,11 @@ const CartDropdown = ({
   const [showTotalDetails, setShowTotalDetails] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const pathname = usePathname();
+
+  const handleViewCart = () => {
+    // Close the cart dropdown immediately
+    setIsCartOpen(false);
+  };
 
   // Prevent hydration mismatch by waiting until after mounting
   useEffect(() => {
@@ -431,7 +437,7 @@ const CartDropdown = ({
                   Secure Checkout
                 </LocalizedClientLink>
                 
-                <LocalizedClientLink href="/cart" className="mb-2 block text-center text-sm underline underline-offset-2">
+                <LocalizedClientLink href="/cart" onClick={handleViewCart} className="mb-2 block text-center text-sm underline underline-offset-2">
                   View Cart
                 </LocalizedClientLink>
               </div>

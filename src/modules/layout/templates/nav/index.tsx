@@ -27,7 +27,8 @@ export default async function Nav() {
             <SideMenu regions={regions} />
           </div>
           <LocalizedClientLink href="/" className="text-lg font-bold flex items-center">
-            <img src="/logo.png" alt="Power Peptides Logo" className="h-10 mr-2" />
+            {/* <img src="/logo.png" alt="Power Peptides Logo"/> */}
+            <p className="text-4xl ml-6 mr-8 text-[#008080]" >ROU</p>
           </LocalizedClientLink>
           {/* Desktop navigation links */}
           <nav className="hidden lg:flex gap-x-6 text-gray-700">

@@ -138,7 +138,8 @@ const Footer = () => {
         {/* Desktop Layout */}
         <div className="hidden md:grid md:grid-cols-6 gap-8 mb-16">
           <div>
-            <Image src="/power_peptide_logo_small.png" alt="Logo" height={110} width={110} className="mb-6" />
+            {/* <Image src="/power_peptide_logo_small.png" alt="Logo" height={110} width={110} className="mb-6" /> */}
+            <p className="text-4xl ml-6 mr-8 text-white font-bold mb-6" >ROU</p>
             <h3 className="font-semibold mb-4">Contact Us</h3>
             <p className="mb-4">+1 (813)-803-1233</p>
             <div>

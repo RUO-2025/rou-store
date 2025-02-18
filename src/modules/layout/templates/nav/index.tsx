@@ -28,7 +28,7 @@ export default async function Nav() {
           </div>
           <LocalizedClientLink href="/" className="text-lg font-bold flex items-center">
             {/* <img src="/logo.png" alt="Power Peptides Logo"/> */}
-            <p className="text-4xl ml-6 mr-8 text-[#008080]" >ROU</p>
+            <p className="text-4xl ml-6 mr-8 text-[#008080]" >RUO</p>
           </LocalizedClientLink>
           {/* Desktop navigation links */}
           <nav className="hidden lg:flex gap-x-6 text-gray-700">

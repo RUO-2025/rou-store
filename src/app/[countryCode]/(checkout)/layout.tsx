@@ -30,7 +30,7 @@ export default function CheckoutLayout({
             data-testid="store-link"
           >
             {/* <img src="/logo.png" alt="Power Peptides Logo" className="h-10 mr-2" /> */}
-            <p className="text-4xl ml-6 mr-8 text-[#008080]" >ROU</p>
+            <p className="text-4xl ml-6 mr-8 text-[#008080]" >RUO</p>
           </LocalizedClientLink>
           <div className="flex-1 basis-0" />
         </nav>

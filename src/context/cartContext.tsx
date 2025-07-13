@@ -11,8 +11,8 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [isCartOpen, setIsCartOpen] = useState(false)
 
-//   const openCart = () => setIsCartOpen(true)
-//   const closeCart = () => setIsCartOpen(false)
+  const openCart = () => setIsCartOpen(true)
+  const closeCart = () => setIsCartOpen(false)
 
   return (
     <CartContext.Provider value={{ isCartOpen, setIsCartOpen }}>
